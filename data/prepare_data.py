@@ -13,16 +13,16 @@ Downloads and prepares two datasets:
    - Saved to: data/python_dataset.json
 
 2. EVALUATION DATA (HumanEval):
-   - Source: huggingface.co/datasets/openai_humaneval
+   - Source: huggingface.co/datasets/openai/openai_humaneval
    - What it is: 164 hand-written Python programming tasks from OpenAI
    - Each task has: a function prompt, a reference solution, and unit tests
    - This is the STANDARD benchmark for evaluating code generation models
    - Saved to: data/human_eval.json
 
 WHY THESE DATASETS?
-   CodeParrot  → real Python code, diverse, permissively licensed
-   HumanEval   → reproducible, standardized, used in every major paper
-                 (Codex, StarCoder, CodeLlama, DeepSeek-Coder all use it)
+   CodeParrot  -> real Python code, diverse, permissively licensed
+   HumanEval   -> reproducible, standardized, used in every major paper
+                  (Codex, StarCoder, CodeLlama, DeepSeek-Coder all use it)
 """
 
 import os
@@ -44,7 +44,7 @@ def prepare_training_data(num_examples=5000, output_path="data/python_dataset.js
     print(f"Downloading CodeParrot dataset ({num_examples} examples)...")
     print("This may take a few minutes on first run (downloads ~500MB).\n")
 
-    # Load from Hugging Face Hub — streaming=True avoids downloading the full 180GB
+    # Load from Hugging Face Hub -- streaming=True avoids downloading the full 180GB
     dataset = load_dataset(
         "codeparrot/codeparrot-clean",
         split="train",
@@ -105,11 +105,14 @@ def prepare_eval_data(output_path="data/human_eval.json"):
         - We feed `prompt` to the model
         - Model generates the function body
         - We run: prompt + generated_body + test_code
-        - If check(entry_point) passes all assertions → success
+        - If check(entry_point) passes all assertions -> success
     """
     print("Downloading HumanEval benchmark (164 tasks)...")
 
-    dataset = load_dataset("openai_humaneval", split="test")
+    # NOTE: "openai_humaneval" (the old loading-script style path) breaks on
+    # current versions of the `datasets` library with an HFValidationError.
+    # The actively maintained dataset repo is "openai/openai_humaneval".
+    dataset = load_dataset("openai/openai_humaneval", split="test")
 
     data = []
     for item in dataset:
