@@ -1,6 +1,6 @@
 # Code Generation Model Benchmarking: Fine-Tuned Open-Source vs. Instruction-Tuned Baselines
 
-**Author:** Yashvi Sandeep Shah  
+**Author:** Nishvi Pradipkumar Patel  
 **Goal:** Evaluate whether a LoRA fine-tuned CodeGen-350M model can compete with a modern
 instruction-tuned baseline (Qwen2.5-Coder-1.5B) on the full HumanEval benchmark.
 
