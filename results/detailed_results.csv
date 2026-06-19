@@ -1,0 +1,3349 @@
+task_id,codegen_pass@1,qwen_pass@1,codegen_pass@5,qwen_pass@5,codegen_correct,qwen_correct,codegen_error_types,qwen_error_types,codegen_avg_time,qwen_avg_time,codegen_lines,qwen_lines,codegen_controls,qwen_controls,codegen_rouge1,qwen_rouge1,codegen_rougeL,qwen_rougeL,codegen_sample,qwen_sample
+HumanEval/0,0.0,0.0,0.0,0.0,0,0,"['SYNTAX', 'SYNTAX', 'ASSERTION', 'SYNTAX', 'SYNTAX']","['SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX']",8.199,1.41,15,1,5,1,0.2414,0.3077,0.1724,0.1538,"    for i in range(len(numbers) - 1):
+        if abs(numbers[i] - numbers[i + 1]) < threshold:
+            return True
+    return False
+
+
+def has_close_elements_and_close_elements(numbers: List[float], threshold: float) -> bool:
+    """""" Check if in given list of numbers, are any two numbers closer to each other than
+    given threshold.
+    >>> has_close_elements_and_close_elements([1.0, 2.0, 3.0], 0.5)
+    False
+    >>> has_close_elements_and_close_elements([1.0, 2.8, 3.0, 4.0, 5.0, 2.0], 0.3)
+","return any(abs(a - b) < threshold for a, b in combinations(numbers, 2))"
+HumanEval/1,0.0,0.0,0.0,0.0,0,0,"['SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX', 'ASSERTION']","['ASSERTION', 'SYNTAX', 'RUNTIME', 'ASSERTION', 'ASSERTION']",8.563,4.046,20,6,10,3,0.2636,0.2338,0.2171,0.1558,"    paren_groups = []
+    for i in range(len(paren_string)):
+        if paren_string[i] == '(':
+            paren_groups.append(paren_string[i:])
+        elif paren_string[i] == ')':
+            if len(paren_groups) > 0:
+                if paren_groups[-1] == '(':
+                    paren_groups.pop()
+                else:
+                    return []
+            else:
+                return []
+    if len(paren_groups) > 0:
+        return []
+    return paren_groups
+
+
+def get_all_paren_groups(p","import re
+
+def separate_paren_groups(paren_string: str) -> List[str]:
+    paren_string = re.sub(r'\s+', '', paren_string)
+    groups = re.split(r'\([^)]*\)', paren_string)
+    return [group.strip() for group in groups if group]"
+HumanEval/2,0.0,0.0,0.0,0.0,0,0,"['ASSERTION', 'SYNTAX', 'SYNTAX', 'SYNTAX', 'ASSERTION']","['SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX']",7.087,0.517,23,1,9,0,0.0825,0.8571,0.0825,0.8571,"    if number < 0:
+        raise ValueError(f""{number} is not a positive number"")
+    elif number > 0:
+        return number
+    else:
+        return -number
+
+
+def truncate_number_to_significant_digits(number: float) -> float:
+    """""" Given a positive floating point number, it can be decomposed into
+    and integer part (largest integer smaller than given number) and decimals
+    (leftover part always smaller than 1).
+
+    Return the decimal part of the number.
+    >>> truncate_number_to_signifi",return number % 1
+HumanEval/3,0.0,0.0,0.0,0.0,0,0,"['SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX']","['SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX']",7.524,0.629,20,1,7,0,0.2281,0.3158,0.2281,0.2105,"    # TODO: Write your code here
+    balances = [0]
+    for operation in operations:
+        if operation == 0:
+            balances.append(0)
+        else:
+            balances[operation] = balances[operation] - operation
+    if balances[0] < 0:
+        return False
+    else:
+        return True
+
+
+def above_zero(operations: List[int]) -> bool:
+    """""" You're given a list of deposit and withdrawal operations on a bank account that starts with
+    zero balance. Your task is to detect if at any po",return sum(operations) < 0
+HumanEval/4,0.0,0.4,0.0,1.0,0,2,"['SYNTAX', 'SYNTAX', 'ASSERTION', 'ASSERTION', 'SYNTAX']","['SYNTAX', 'SYNTAX', 'SYNTAX']",6.459,1.275,16,1,3,1,0.2632,0.9333,0.2281,0.6667,"    return sum(numbers) / len(numbers)
+
+def mean_squared_deviation(numbers: List[float]) -> float:
+    """""" For a given list of input numbers, calculate Mean Squared Deviation
+    around the mean of this dataset.
+    Mean Squared Deviation is the mean square difference between the mean
+    of this dataset and a centerpoint (mean in this case):
+    MSE = mean square | x - x_mean |
+    >>> mean_squared_deviation([1.0, 2.0, 3.0, 4.0])
+    1.0
+    """"""
+    return sum(x * x for x in numbers) / len(numb",return sum(abs(x - sum(numbers) / len(numbers)) for x in numbers) / len(numbers)
+HumanEval/5,0.0,0.0,0.0,0.0,0,0,"['SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX', 'ASSERTION']","['SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX']",6.187,1.587,13,1,2,2,0.2,0.45,0.16,0.3,"    return [delimeter] + numbers * (len(numbers) - 1)
+
+def intersperse_with_n(numbers: List[int], delimeter: int) -> List[int]:
+    """""" Insert a number 'delimeter' between every two consecutive elements of input list `numbers'
+    >>> intersperse_with_n([], 4)
+    []
+    >>> intersperse_with_n([1, 2, 3], 4)
+    [1, 4, 2, 4, 3]
+    """"""
+    return [delimeter] + numbers * (len(numbers) - 1)
+
+def intersperse_with_n2(numbers: List[int], delimeter: int, n: int) -> List[int]:
+    """""" Insert a number 'd",return [numbers[i] for i in range(len(numbers)) if i < len(numbers) - 1 else numbers[i]] + [delimeter]
+HumanEval/6,0.0,0.0,0.0,0.0,0,0,"['SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX', 'ASSERTION']","['ASSERTION', 'ASSERTION', 'ASSERTION', 'ASSERTION', 'SYNTAX']",7.501,2.809,19,4,8,2,0.254,0.3824,0.1746,0.2941,"    if len(paren_string) == 0:
+        return []
+
+    nested_parens = []
+    for i in range(len(paren_string)):
+        if paren_string[i] == '(':
+            nested_parens.append(int(paren_string[i]))
+        elif paren_string[i] == ')':
+            if len(nested_parens) > 0:
+                nested_parens.pop()
+            else:
+                nested_parens.append(1)
+
+    return nested_parens
+
+
+def get_nested_parens(paren_string: str) -> List[int]:
+    """""" Input to this function is a string re","import re
+
+def parse_nested_parens(paren_string: str) -> List[int]:
+    return [max(map(len, re.findall(r'\([^)]*\)', s))) for s in paren_string.split()]"
+HumanEval/7,0.0,0.0,0.0,0.0,0,0,"['SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX']","['SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX']",7.46,0.774,16,1,6,2,0.1474,0.7,0.1474,0.7,"    return [s for s in strings if substring in s]
+
+def filter_by_value(strings: List[str], value: int) -> List[str]:
+    """""" Filter an input list of strings by given value
+    >>> filter_by_value([], 5)
+    []
+    >>> filter_by_value(['abc', 'bacd', 'cde', 'array'], 5)
+    ['abc', 'bacd', 'array']
+    """"""
+    return [s for s in strings if s.split('.')[1] == str(value)]
+
+def filter_by_length(strings: List[str]) -> List[str]:
+    """""" Filter an input list of strings by the length of the input
+    >",return [s for s in strings if substring in s]
+HumanEval/8,0.0,0.0,0.0,0.0,0,0,"['SYNTAX', 'SYNTAX', 'SYNTAX', 'ASSERTION', 'SYNTAX']","['SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX']",6.625,1.001,17,1,3,0,0.1565,0.25,0.1043,0.125,"    return sum(numbers), sum(map(lambda x: x * x, numbers))
+
+
+def sum_product_recursive(numbers: List[int]) -> Tuple[int, int]:
+    """""" For a given list of integers, return a tuple consisting of a sum and a product of all the integers in a list.
+    Empty sum should be equal to 0 and empty product should be equal to 1.
+    >>> sum_product_recursive([])
+    (0, 1)
+    >>> sum_product_recursive([1, 2, 3, 4])
+    (10, 24)
+    """"""
+    if len(numbers) == 0:
+        return (0, 1)
+    return numbers[0]","return sum(numbers), reduce(lambda x, y: x * y, numbers, 1)"
+HumanEval/9,0.0,0.0,0.0,0.0,0,0,"['SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX', 'RUNTIME']","['SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX']",7.376,0.915,18,1,3,1,0.2034,0.25,0.1864,0.2,"    # TODO: complete this function
+
+    # TODO: complete this function
+    max_list = []
+    for i in range(len(numbers)):
+        max_list.append(max(numbers[i:i+2]))
+    return max_list
+
+def rolling_max_2(numbers: List[int]) -> List[int]:
+    """""" From a given list of integers, generate a list of rolling maximum element found until given moment
+    in the sequence.
+    >>> rolling_max_2([1, 2, 3, 2, 3, 4, 2])
+    [1, 2, 3, 3, 3, 4, 4]
+    """"""
+    # TODO: complete this function
+    max_list = []",return [max(numbers[:i+1]) for i in range(len(numbers))]
+HumanEval/10,0.0,0.6,0.0,1.0,0,3,"['SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX', 'TIMEOUT']","['ASSERTION', 'ASSERTION']",7.414,2.444,17,5,6,3,0.2586,0.3846,0.1897,0.3077,"    palindrome = ''
+    for i in range(len(string)):
+        if string[i] != string[-1 - i]:
+            palindrome += string[i]
+        if i < len(string) - 1:
+            palindrome += string[-1 - i]
+        if string[i] == string[-1 - i]:
+            palindrome += string[i]
+    return palindrome
+
+
+def make_palindrome_without_prefix(string: str) -> str:
+    """""" Find the shortest palindrome that begins with a supplied string.
+    Algorithm idea is simple:
+    - Find the longest prefix of suppli","def make_palindrome(string: str) -> str:
+    for i in range(len(string)):
+        if string[i:] == string[i:][::-1]:
+            return string + string[:i][::-1]
+    return string"
+HumanEval/11,0.0,0.0,0.0,0.0,0,0,"['SYNTAX', 'ASSERTION', 'SYNTAX', 'SYNTAX', 'SYNTAX']","['SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX']",7.42,1.155,17,1,3,1,0.2593,0.5789,0.1481,0.5789,"    a = list(a)
+    b = list(b)
+    for i in range(len(a)):
+        a[i] = chr(ord(a[i]) ^ ord(b[i]))
+    return ''.join(a)
+
+
+def string_xor_dict(a: str, b: dict) -> str:
+    """""" Input are two strings a and b consisting only of 1s and 0s.
+    Perform binary XOR on these inputs and return result also as a string.
+    >>> string_xor_dict('010', {'A':'0', 'B':'1'})
+    '100'
+    """"""
+    a = list(a)
+    b = list(b)
+    for i in range(len(a)):
+        a[i] = chr(ord(","return ''.join(str(int(x) ^ int(y)) for x, y in zip(a, b))"
+HumanEval/12,0.2,0.0,1.0,0.0,1,0,"['ASSERTION', 'SYNTAX', 'SYNTAX', 'SYNTAX']","['SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX']",6.042,0.647,25,1,8,1,0.2178,0.4,0.198,0.2667,"    if len(strings) == 0:
+        return None
+
+    if len(strings) == 1:
+        return strings[0]
+
+    if len(strings) == 2:
+        if strings[0] == strings[1]:
+            return strings[0]
+
+        return strings[1]
+
+    if len(strings) == 3:
+        if strings[0] == strings[2] and strings[1] == strings[2]:
+            return strings[0]
+
+        return strings[1]
+
+    if len(strings) == 4:
+        if strings[0] == strings[1] and strings[1] == strings[2] and strings[2] == strings[3]:
+        ",return max(strings) if strings else None
+HumanEval/13,0.2,0.0,1.0,0.0,1,0,"['RUNTIME', 'SYNTAX', 'SYNTAX', 'SYNTAX']","['SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX']",6.197,0.94,14,3,2,1,0.1591,0.9474,0.1364,0.9474,"    if a < b:
+        return greatest_common_divisor(b, a)
+    return greatest_common_divisor(a, b % a)
+
+def test_greatest_common_divisor():
+    assert greatest_common_divisor(3, 5) == 5
+    assert greatest_common_divisor(25, 15) == 15
+    assert greatest_common_divisor(45, 11) == 11
+    assert greatest_common_divisor(123, 5) == 5
+    assert greatest_common_divisor(100, 5) == 5
+    assert greatest_common_divisor(123, 5) == 5
+    assert greatest_common_divisor(12, 5) == 5
+    assert greatest_comm","while b != 0:
+    a, b = b, a % b
+return a"
+HumanEval/14,0.0,0.0,0.0,0.0,0,0,"['SYNTAX', 'ASSERTION', 'RUNTIME', 'SYNTAX', 'SYNTAX']","['SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX']",7.449,1.001,16,1,4,1,0.1961,0.8333,0.1961,0.5,"    prefixes = [string[:i] for i in range(1, len(string)+1)]
+    return prefixes
+
+
+def all_suffixes(string: str) -> List[str]:
+    """""" Return list of all suffixes from shortest to longest of the input string
+    >>> all_suffixes('abc')
+    ['a', 'ab', 'c']
+    """"""
+    suffixes = [string[i:i+len(string)-1] for i in range(len(string)-1, -1, -1)]
+    return suffixes
+
+
+def all_suffixes_from_start_to_end(string: str) -> List[str]:
+    """""" Return list of all suffixes from shortest to longest of the in",return [string[:i+1] for i in range(len(string))]
+HumanEval/15,0.4,0.0,1.0,0.0,2,0,"['SYNTAX', 'SYNTAX', 'SYNTAX']","['SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX']",5.365,0.8,7,1,3,0,0.3721,0.7059,0.3721,0.7059,"    return "" "".join(str(i) for i in range(n+1))
+
+
+if __name__ == ""__main__"":
+    import doctest
+    if doctest.testmod().failed == 0:
+        print(""\n*** ALL TESTS PASSED. YOU'RE IN THE SAME PYTHON VERSION!\n"")
+","return ' '.join(map(str, range(n + 1)))"
+HumanEval/16,0.0,0.0,0.0,0.0,0,0,"['SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX']","['SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX']",7.417,0.496,26,1,5,0,0.092,1.0,0.069,1.0,"    count = 0
+    for char in string:
+        if char.lower() in string.lower():
+            count += 1
+    return count
+
+def count_words(string: str) -> int:
+    """""" Given a string, find out how many words it consists of.
+    >>> count_words('xyzXYZ')
+    3
+    >>> count_words('Jerry')
+    4
+    """"""
+    return len(string.split())
+
+def count_sentences(string: str) -> int:
+    """""" Given a string, find out how many sentences it consists of.
+    >>> count_sentences('xyzXYZ')
+    3
+    >>> count_sen",return len(set(string.lower()))
+HumanEval/17,0.0,0.0,0.0,0.0,0,0,"['SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX']","['RUNTIME', 'SYNTAX', 'RUNTIME', 'SYNTAX', 'RUNTIME']",7.603,1.65,15,2,6,2,0.234,0.4324,0.1489,0.3784,"    beat_dict = {'o': 0, 'o|': 0, ''.|': 0}
+    for c in music_string:
+        if c in beat_dict:
+            beat_dict[c] += 1
+        elif c == '|':
+            beat_dict['o|'] += 1
+        else:
+            beat_dict[''.|'] += 1
+    return beat_dict.values()
+
+
+def play_music(beat_dict: dict, beats: List[int]) -> None:
+    """"""
+    >>> play_music(parse_beat_dict('o o| .| o| o| .| .| o o'), [4, 2, 1, 2, 2, 1, 1, 1, 1, 4, 4])
+    >>> play_music(parse_beat_dict('o o| .| o|","def parse_music(music_string: str) -> List[int]:
+    return [int(note[0]) for note in music_string.split()]"
+HumanEval/18,0.2,0.0,1.0,0.0,1,0,"['SYNTAX', 'ASSERTION', 'SYNTAX', 'SYNTAX']","['SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX']",7.049,0.91,20,1,5,2,0.3243,0.878,0.2523,0.7805,"    # return the count of the substring in the string
+    count = 0
+    for i in range(len(string)):
+        if substring == string[i:]:
+            count += 1
+    return count
+
+def how_many_substrings(string: str, substring: str) -> int:
+    """""" Find how many times a given substring can be found in the original string. Count overlaping cases.
+    >>> how_many_substrings('', 'a')
+    0
+    >>> how_many_substrings('aaa', 'a')
+    3
+    >>> how_many_substrings('aaaa', 'aa')
+    3
+    """"""
+    # ret",return sum(1 for i in range(len(string) - len(substring) + 1) if string[i:i+len(substring)] == substring)
+HumanEval/19,0.0,0.0,0.0,0.0,0,0,"['SYNTAX', 'ASSERTION', 'SYNTAX', 'ASSERTION', 'SYNTAX']","['SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX']",6.289,0.608,18,1,8,0,0.1594,0.2273,0.0725,0.2273,"    # if numbers is empty string, return empty string
+    if not numbers:
+        return ''
+    # if numbers is not a string, return a blank string
+    if not isinstance(numbers, str):
+        return ''
+    # if numbers is a string, convert it to a list
+    if isinstance(numbers, str):
+        numbers = numbers.split()
+    # convert numbers to a list of integers
+    numbers = list(map(int, numbers))
+    # sort the numbers in ascending order
+    numbers.sort()
+    # return the string with numbers",return ' '.join(sorted(numbers.split()))
+HumanEval/20,0.0,0.4,0.0,1.0,0,2,"['SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX']","['SYNTAX', 'ASSERTION', 'SYNTAX']",7.769,3.622,14,1,3,0,0.1818,0.0984,0.1538,0.0656,"    smallest_difference = float(""inf"")
+    smallest_difference_index = 0
+    for index, number in enumerate(numbers):
+        difference = abs(number - smallest_difference)
+        if difference < smallest_difference:
+            smallest_difference = difference
+            smallest_difference_index = index
+    return numbers[smallest_difference_index], numbers[smallest_difference_index]
+
+
+def find_closest_elements_with_2_numbers(numbers: List[float]) -> Tuple[float, float]:
+    """""" From a suppl","return min(numbers), max(numbers)"
+HumanEval/21,0.0,0.2,0.0,1.0,0,1,"['SYNTAX', 'ASSERTION', 'SYNTAX', 'SYNTAX', 'SYNTAX']","['RUNTIME', 'RUNTIME', 'SYNTAX', 'SYNTAX']",7.387,1.61,13,4,5,1,0.1864,0.439,0.1525,0.3902,"    return [n / sum(numbers) for n in numbers]
+
+
+def rescale_to_unit_with_no_zero(numbers: List[float]) -> List[float]:
+    """""" Given list of numbers (of at least two elements), apply a linear transform to that list,
+    such that the smallest number will become 0 and the largest will become 1
+    >>> rescale_to_unit_with_no_zero([1.0, 2.0, 3.0, 4.0, 5.0])
+    [0.0, 0.25, 0.5, 0.75, 1.0]
+    """"""
+    return [n / sum(numbers) for n in numbers if n != 0]
+
+
+def get_inverted_index_list(numbers: List[","import numpy as np
+
+def rescale_to_unit(numbers: List[float]) -> List[float]:
+    return (numbers - min(numbers)) / (max(numbers) - min(numbers))"
+HumanEval/22,0.2,0.0,1.0,0.0,1,0,"['SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX']","['SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX']",7.492,0.79,15,1,10,2,0.1458,0.7,0.1458,0.7,"    return [value for value in values if isinstance(value, int)]
+
+def filter_strings(values: List[Any]) -> List[str]:
+    """""" Filter given list of any python values only for strings
+    >>> filter_strings(['a', 'b', 'c', 'abc', [], []])
+    ['a', 'b', 'c']
+    """"""
+    return [value for value in values if isinstance(value, str)]
+
+def filter_lists(values: List[Any]) -> List[List[Any]]:
+    """""" Filter given list of any python values only for lists
+    >>> filter_lists([1, 2, 3, 'abc', [], []])
+    ","return [value for value in values if isinstance(value, int)]"
+HumanEval/23,0.0,0.0,0.0,0.0,0,0,"['SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX']","['SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX']",7.436,0.423,29,1,7,0,0.0759,1.0,0.0759,1.0,"    return len(string)
+
+def strcontains(string: str, substr: str) -> bool:
+    """""" Return True if string substring exists in given string
+    >>> strcontains('abc', 'c')
+    True
+    >>> strcontains('abc', 'b')
+    False
+    """"""
+    if substr in string:
+        return True
+    else:
+        return False
+
+def strfind(string: str, substr: str) -> int:
+    """""" Return index of given substring in given string
+    >>> strfind('abc', 'c')
+    0
+    >>> strfind('abc', 'b')
+    1
+    >>> strfind('abc', '",return len(string)
+HumanEval/24,0.0,0.0,0.0,0.0,0,0,"['ASSERTION', 'RUNTIME', 'RUNTIME', 'SYNTAX', 'SYNTAX']","['SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX']",6.045,1.049,10,1,3,0,0.2632,0.375,0.1579,0.25,"    while n % 2 == 0:
+        n = n / 2
+    return n
+
+
+if __name__ == ""__main__"":
+    import doctest
+
+    if doctest.testmod().failed == 0:
+        print(""\n*** ALL TESTS PASSED. DONE ***\n"")
+",return n // (n // 2)
+HumanEval/25,0.0,1.0,0.0,1.0,0,5,"['ASSERTION', 'SYNTAX', 'ASSERTION', 'ASSERTION', 'ASSERTION']",[],5.414,4.073,26,12,10,5,0.4,0.6875,0.3304,0.5625,"    factors = []
+    for i in range(1, int(n**0.5)+1):
+        if n % i == 0:
+            factors.append(i)
+            n //= i
+    if n > 1:
+        factors.append(n)
+    return factors
+
+def factorial(n: int) -> int:
+    """""" Return factorial of given integer.
+    """"""
+    factorial = 1
+    for i in range(1, n+1):
+        factorial *= i
+    return factorial
+
+def is_prime(n: int) -> bool:
+    """""" Return True if given integer is prime, else return False.
+    """"""
+    if n <= 1:
+        return False
+","def factorize(n: int) -> List[int]:
+    i = 2
+    factors = []
+    while i * i <= n:
+        if n % i:
+            i += 1
+        else:
+            n //= i
+            factors.append(i)
+    if n > 1:
+        factors.append(n)
+    return factors"
+HumanEval/26,0.0,0.0,0.0,0.0,0,0,"['ASSERTION', 'SYNTAX', 'RUNTIME', 'SYNTAX', 'SYNTAX']","['SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX']",7.446,0.498,16,1,9,0,0.1633,0.2,0.1633,0.2,"    # for i in range(len(numbers)):
+    #     for j in range(i+1, len(numbers)):
+    #         if numbers[i] == numbers[j]:
+    #             numbers[i] = numbers[j]
+    #             del numbers[j]
+    # return numbers
+
+    return [numbers[i] for i in range(len(numbers)) if numbers[i] not in numbers[:i]]
+
+
+def get_nth_last_occurrence(numbers: List[int], n: int) -> List[int]:
+    """""" From a list of integers, return the nth last element.
+    """"""
+    # for i in range(len(numbers)):
+    #     for j",return list(set(numbers))
+HumanEval/27,0.2,0.0,1.0,0.0,1,0,"['RUNTIME', 'ASSERTION', 'SYNTAX', 'SYNTAX']","['SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX']",7.425,0.916,22,1,3,2,0.0667,0.2353,0.0667,0.2353,"    return string.swapcase()
+
+def get_index(text: str, char: str) -> int:
+    """""" Returns the index of the first occurrence of char in text.
+    >>> get_index('Hello', 'l')
+    3
+    """"""
+    return text.lower().find(char.lower())
+
+def get_index2(text: str, char: str) -> int:
+    """""" Returns the index of the first occurrence of char in text.
+    >>> get_index2('Hello', 'l')
+    4
+    """"""
+    return text.lower().find(char)
+
+def get_index3(text: str, char: str) -> int:
+    """""" Returns the index of ",return ''.join(c.lower() if c.isupper() else c.upper() for c in string)
+HumanEval/28,0.0,0.0,0.0,0.0,0,0,"['SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX']","['SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX']",7.428,0.443,23,1,3,0,0.0896,1.0,0.0896,1.0,"    return """".join(strings)
+
+def is_palindrome(s: str) -> bool:
+    """""" Return True if the string s is palindrome, otherwise return False
+    >>> is_palindrome('rgb')
+    True
+    >>> is_palindrome('racecar')
+    False
+    >>> is_palindrome('abc')
+    False
+    >>> is_palindrome('a')
+    True
+    """"""
+    return s == concatenate(s[::-1])
+
+def remove_duplicates(string: str) -> str:
+    """""" Return a string without any duplicates
+    >>> remove_duplicates('abc')
+    'abc'
+    >>> remove_duplicates('",return ''.join(strings)
+HumanEval/29,0.0,0.0,0.0,0.0,0,0,"['SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX']","['SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX']",7.455,0.769,17,1,9,2,0.1188,0.7,0.1188,0.7,"    return [s for s in strings if prefix in s]
+
+
+def filter_by_suffix(strings: List[str], suffix: str) -> List[str]:
+    """""" Filter an input list of strings only for ones that end with a given suffix.
+    >>> filter_by_suffix(['abc', 'bcd', 'cde', 'array'], 'de')
+    ['abc', 'array']
+    """"""
+    return [s for s in strings if suffix in s]
+
+
+def filter_by_size(strings: List[str], size: int) -> List[str]:
+    """""" Filter an input list of strings by their size.
+    >>> filter_by_size(['abc', 'bcd', '",return [s for s in strings if s.startswith(prefix)]
+HumanEval/30,0.0,0.4,0.0,1.0,0,2,"['SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX']","['SYNTAX', 'SYNTAX', 'SYNTAX']",7.591,0.933,15,2,6,3,0.1277,0.5217,0.1277,0.5217,"    return [x for x in l if x > 0]
+
+def get_negative(l: list):
+    """"""Return only negative numbers in the list.
+    >>> get_negative([-1, 2, -4, 5, 6])
+    [-1, 2, -4, 5, 6]
+    >>> get_negative([5, 3, -5, 2, -3, 3, 9, 0, 123, 1, -10])
+    [-1, 2, -4, 5, 6]
+    """"""
+    return [x for x in l if x < 0]
+
+def get_nth_positive(l: list, n: int):
+    """"""Return nth positive number in the list.
+    >>> get_nth_positive([-1, 2, -4, 5, 6], 2)
+    2
+    ","def get_positive(l: list):
+    return [x for x in l if x > 0]"
+HumanEval/31,0.0,0.6,0.0,1.0,0,3,"['SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX']","['SYNTAX', 'SYNTAX']",7.322,3.02,29,9,8,4,0.2857,0.6939,0.2667,0.6939,"    if n == 1:
+        return False
+    if n == 2:
+        return True
+    if n == 3:
+        return False
+    if n % 2 == 0 or n % 3 == 0:
+        return False
+    i = 5
+    while i <= n // 2:
+        if n % i == 0 or n % (i + 2) == 0:
+            return False
+        i += 6
+    return True
+
+
+def is_prime_number(n):
+    """"""Return True if n is prime, and False otherwise.
+
+    >>> is_prime_number(2)
+    True
+    >>> is_prime_number(3)
+    False
+    >>> is_prime_number(5)
+    False
+    >>> is_prim","import math
+
+def is_prime(n):
+    if n <= 1:
+        return False
+    for i in range(2, int(math.sqrt(n)) + 1):
+        if n % i == 0:
+            return False
+    return True"
+HumanEval/32,0.0,0.0,0.0,0.0,0,0,"['SYNTAX', 'SYNTAX', 'SYNTAX', 'ASSERTION', 'SYNTAX']","['SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX', 'ASSERTION']",7.603,2.46,15,1,3,2,0.25,0.1667,0.1667,0.1,"    n = len(xs)
+    if n % 2 == 0:
+        return (xs[n//2] + xs[n//2] * xs[n//2]) / (poly(xs, xs[n//2]) + 1)
+    else:
+        return (xs[n//2] + xs[n//2] * xs[n//2] * xs[n//2]) / (poly(xs, xs[n//2]) + 1)
+
+
+def find_pivot(xs: list):
+    """"""
+    find pivot (x) of list xs.
+    x is the highest non zero coefficient.
+    >>> round(find_pivot([1, 2, 3, 4]), 2)
+    3
+    """"""
+    return math.pow(xs[-1], 1 / len(","return next((root for root in range(-1000, 1001) if abs(poly(xs, root)) < 1e-9), None)"
+HumanEval/33,0.0,0.0,0.0,0.0,0,0,"['ASSERTION', 'SYNTAX', 'SYNTAX', 'SYNTAX', 'ASSERTION']","['SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX', 'ASSERTION']",5.401,1.442,10,1,3,2,0.35,0.5,0.35,0.4286,"    l_new = []
+    for i in range(len(l)):
+        if l[i] % 3 != 0:
+            l_new.append(l[i])
+    return l_new
+
+
+if __name__ == ""__main__"":
+    import doctest
+    doctest.testmod(verbose=True)
+",return [l[i] if i % 3 != 0 else sorted(l[i::3]) for i in range(len(l))]
+HumanEval/34,0.0,0.0,0.0,0.0,0,0,"['SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX']","['SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX']",7.516,0.445,24,1,4,0,0.1111,0.8889,0.1111,0.8889,"    return sorted(l)
+
+def unique_without_duplicates(l: list):
+    """"""Return sorted unique elements in a list
+    >>> unique_without_duplicates([5, 3, 5, 2, 3, 3, 9, 0, 123])
+    [0, 2, 3, 5, 9, 123]
+    """"""
+    return sorted(set(l))
+
+def is_even(n: int):
+    """"""Return whether or not the number is even.
+    >>> is_even(3)
+    True
+    """"""
+    return n % 2 == 0
+
+def is_odd(n: int):
+    """"""Return whether or not the number is odd.
+    >>> is_odd(3)
+    False
+    """"""
+    return not is_even(n)
+
+def is",return sorted(set(l))
+HumanEval/35,0.0,0.0,0.0,0.0,0,0,"['SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX']","['SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX']",7.276,0.39,25,1,3,0,0.1064,0.2353,0.1064,0.1176,"    return max(l)
+
+
+def min_element(l: list):
+    """"""Return minimum element in the list.
+    >>> min_element([1, 2, 3])
+    -3
+    >>> min_element([5, 3, -5, 2, -3, 3, 9, 0, 123, 1, -10])
+    -10
+    """"""
+    return min(l)
+
+
+def sum_element(l: list):
+    """"""Return sum of all elements in the list.
+    >>> sum_element([1, 2, 3])
+    6
+    >>> sum_element([5, 3, -5, 2, -3, 3, 9, 0, 123, 1, -10])
+    123
+    """"""
+    return sum(l)
+
+
+def sum_squared_element(l: list):
+    """"""Return",return max(l)
+HumanEval/36,0.0,0.4,0.0,1.0,0,2,"['SYNTAX', 'ASSERTION', 'RUNTIME', 'ASSERTION', 'SYNTAX']","['SYNTAX', 'SYNTAX', 'SYNTAX']",5.763,2.309,28,5,6,2,0.3009,0.6316,0.2478,0.5614,"    count = 0
+    for i in range(n):
+        if i % 7 == 0 or i % 11 == 0 or i % 13 == 0:
+            count += 1
+    return count
+
+# print(fizz_buzz(50))
+# print(fizz_buzz(78))
+# print(fizz_buzz(79))
+
+
+def factorial(n: int):
+    """"""Return the factorial of a number.
+    >>> factorial(5)
+    120
+    """"""
+    if n == 1:
+        return 1
+    return n * factorial(n-1)
+
+
+# print(factorial(5))
+# print(factorial(5))
+# print(factorial(6))
+
+def is_prime(n: int):
+    """"""Return True if n is prime.
+    >>> is","count = 0
+for i in range(1, n):
+    if i % 11 == 0 or i % 13 == 0:
+        count += str(i).count('7')
+return count"
+HumanEval/37,0.0,0.0,0.0,0.0,0,0,"['SYNTAX', 'ASSERTION', 'ASSERTION', 'SYNTAX', 'ASSERTION']","['SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX']",7.488,1.455,14,1,1,2,0.1622,0.3922,0.1441,0.2745,"    #l = [1, 2, 3, 4, 5, 6]
+    #l = [1, 2, 3, 4, 5, 6]
+    #l = [1, 2, 3, 4, 5, 6]
+    #l = [1, 2, 3, 4, 5, 6]
+    l.sort()
+    #l = [1, 2, 3, 4, 5, 6]
+    #l = [1, 2, 3, 4, 5, 6]
+    #l = [1, 2, 3, 4, 5, 6]
+    #l = [1, 2, 3, 4, 5, 6]
+    #l = [1, 2, 3, 4, 5, 6]
+    return l
+
+def sort_odd(l: list):
+    """"""This function takes a list l and",return [l[i] if i % 2 else sorted(l[i:i+2])[0] for i in range(len(l))]
+HumanEval/38,0.0,0.4,0.0,1.0,0,2,"['TIMEOUT', 'ASSERTION', 'SYNTAX', 'ASSERTION', 'SYNTAX']","['SYNTAX', 'SYNTAX', 'SYNTAX']",6.2,2.94,14,2,5,2,0.15,0.0833,0.15,0.0833,"    # split string to groups. Each of length 3.
+    groups = [s[(3 * i):min((3 * i + 3), len(s))] for i in range((len(s) + 2) // 3)]
+    # cycle elements in each group. Unless group has fewer elements than 3.
+    groups = [(group[1:] + group[0]) if len(group) == 3 else group for group in groups]
+    return """".join(groups)
+
+
+def main():
+    s = input()
+    print(encode_cyclic(s))
+    print(decode_cyclic(encode_cyclic(s)))
+
+if __name__ == '__main__':
+    main()
+","groups = [(group[1:] + group[0]) if len(group) == 3 else group for group in groups]
+return """".join(groups)"
+HumanEval/39,0.0,0.0,0.0,0.0,0,0,"['SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX', 'ASSERTION']","['ASSERTION', 'ASSERTION', 'RUNTIME', 'ASSERTION', 'ASSERTION']",5.947,6.258,23,20,5,8,0.2941,0.5484,0.1471,0.4839,"    i = 1
+    while i < n:
+        j = i + 1
+        while j <= n:
+            if j == 1 or j == n:
+                return j
+            else:
+                j = j + 1
+        i = i + 1
+    return -1
+
+def prime_fib_list(n: int):
+    """"""
+    prime_fib_list returns a list of numbers that are prime fibonacci numbers and it's also a prime.
+    >>> prime_fib_list(1)
+    [2]
+    >>> prime_fib_list(2)
+    [3, 5]
+    >>> prime_fib_list(3)
+    [3, 5, 7]
+    >>> prime_fib_list(4)
+    [3, 5, 7, 11]
+    >>","from typing import *
+from collections import *
+
+def prime_fib(n: int) -> int:
+    def is_prime(x: int) -> bool:
+        if x <= 1:
+            return False
+        for i in range(2, int(math.sqrt(x)) + 1):
+            if x % i == 0:
+                return False
+        return True
+
+    fib = [0, 1]
+    while len(fib) < n:
+        next_fib = fib[-1] + fib[-2]
+        fib.append(next_fib)
+
+    for num in fib:
+        if is_prime(num):
+            return num"
+HumanEval/40,0.0,0.2,0.0,1.0,0,1,"['ASSERTION', 'SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX']","['SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX']",7.828,3.108,14,6,6,4,0.4356,1.0,0.4356,1.0,"    # Your code here
+    for i in range(len(l)):
+        for j in range(len(l)):
+            if l[i] == l[j] == 0:
+                return True
+    return False
+
+# This is the part that's executed when you run this file.
+if __name__ == '__main__':
+    import doctest
+    if doctest.testmod().failed == 0:
+        print(""\n*** ALL TESTS PASSED. YOU'RE OK.\n"")
+    else:
+        print(""\n*** FAILED. PLEASE REPORT THIS TO THE STUDENTS.\n"")
+","for i in range(len(l)):
+    for j in range(i + 1, len(l)):
+        for k in range(j + 1, len(l)):
+            if l[i] + l[j] + l[k] == 0:
+                return True
+return False"
+HumanEval/41,0.0,0.6,0.0,1.0,0,3,"['SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX']","['SYNTAX', 'SYNTAX']",7.979,0.798,17,2,3,1,0.031,0.4615,0.031,0.4615,"    return 0
+
+def car_race_collision_no_speed(n: int):
+    """"""
+    Imagine a road that's a perfectly straight infinitely long line.
+    n cars are driving left to right;  simultaneously, a different set of n cars
+    are driving right to left.   The two sets of cars start out being very far from
+    each other.  All cars move in the same speed.  Two cars are said to collide
+    when a car that's moving left to right hits a car that's moving right to left.
+    However, the cars are infinitely stu","def car_race_collision(n: int) -> int:
+    return n ** 2"
+HumanEval/42,0.2,0.0,1.0,0.0,1,0,"['SYNTAX', 'SYNTAX', 'ASSERTION', 'SYNTAX']","['SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX']",6.815,0.773,15,1,1,1,0.1579,0.7143,0.0789,0.7143,"    l.append(l[-1] + 1)
+    return l
+
+def get_key(l: list, value: int):
+    """"""Return index of value in list.
+    >>> get_key(['a', 'b', 'c', 'd', 'e', 'f'], 'c')
+    3
+    >>> get_key(['a', 'b', 'c', 'd', 'e', 'f'], 'd')
+    4
+    >>> get_key(['a', 'b', 'c', 'd', 'e', 'f'], 'e')
+    4
+    >>> get_key(['a', 'b', 'c', 'd', 'e', 'f'], 'f')
+    Traceback (most recent call last):
+    ...
+    ValueError: list is not sorted
+    ",return [x + 1 for x in l]
+HumanEval/43,0.0,0.0,0.0,0.0,0,0,"['SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX']","['SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX']",7.498,1.333,20,5,6,3,0.2069,0.8511,0.1552,0.8511,"    # TODO: Write your code here
+    if len(l) == 2:
+        return True
+    elif len(l) == 1 and l[0] == l[1]:
+        return False
+    else:
+        return True
+
+def pairs_sum_to_one(l):
+    """"""
+    pairs_sum_to_one takes a list of integers as an input.
+    it returns True if there are three distinct elements in the list that
+    sum to one, and False otherwise.
+    >>> pairs_sum_to_one([1, 3, 5, 0])
+    False
+    >>> pairs_sum_to_one([1, 3, -2, 1])
+    False
+    >>> pairs_sum_to_one([1, 2, 3,","for i in range(len(l)):
+    for j in range(i + 1, len(l)):
+        if l[i] + l[j] == 0:
+            return True
+return False"
+HumanEval/44,0.0,0.6,0.0,1.0,0,3,"['TIMEOUT', 'SYNTAX', 'SYNTAX', 'SYNTAX', 'ASSERTION']","['SYNTAX', 'SYNTAX']",7.122,2.368,18,1,4,0,0.2456,0.2353,0.2105,0.1176,"    if x < base:
+        return str(x)
+    else:
+        return str(x // base) + change_base(x % base, base)
+
+def main():
+    """"""
+    >>> change_base(8, 3)
+    '22'
+    >>> change_base(8, 2)
+    '1000'
+    >>> change_base(7, 2)
+    '111'
+    """"""
+    print(change_base(int(input()), int(input())))
+
+if __name__ == '__main__':
+    main()
+",return bin(x)[2:]
+HumanEval/45,0.2,0.0,1.0,0.0,1,0,"['SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX']","['SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX']",7.593,0.663,24,1,6,0,0.0808,0.8,0.0808,0.6,"    return a * h / 2
+
+def perimeter(a, h):
+    """"""Given length of a side and high return perimeter for a triangle.
+    >>> perimeter(5, 3)
+    11
+    """"""
+    return a * h + a * h / 2 + h
+
+def is_triangle(a, h):
+    """"""Given length of a side and high return True if triangle is valid,
+    False otherwise.
+    >>> is_triangle(5, 3)
+    True
+    >>> is_triangle(5, 4)
+    False
+    """"""
+    return a * h / 2 == triangle_area(a, h)
+
+def is_square(a, h):
+    """"""Given length of a side and high return True",return 0.5 * a * h
+HumanEval/46,0.0,0.4,0.0,1.0,0,2,"['RUNTIME', 'RUNTIME', 'SYNTAX', 'SYNTAX', 'ASSERTION']","['ASSERTION', 'ASSERTION', 'ASSERTION']",5.89,4.761,8,10,6,6,0.5161,0.4557,0.3226,0.2532,"    if n == 0:
+        return 0
+    elif n == 1:
+        return 1
+    elif n == 2:
+        return 0
+    else:
+        return fib4(n-1) + fib4(n-2) + fib4(n-3) + fib4(n-4)
+","def fib4(n: int) -> int:
+    if n == 0 or n == 1:
+        return 0
+    elif n == 2:
+        return 2
+    else:
+        a, b, c, d = 0, 0, 2, 0
+        for _ in range(3, n+1):
+            a, b, c, d = b, c, d, a + b + c + d
+        return d"
+HumanEval/47,0.0,0.4,0.0,1.0,0,2,"['ASSERTION', 'SYNTAX', 'ASSERTION', 'SYNTAX', 'RUNTIME']","['SYNTAX', 'SYNTAX', 'SYNTAX']",6.77,1.572,11,4,2,1,0.359,0.1667,0.2564,0.1667,"    return sorted(l)[len(l) // 2]
+
+
+def main():
+    """"""
+    >>> main()
+    """"""
+
+
+if __name__ == '__main__':
+    main()
+","import statistics
+
+def median(l: list):
+    return statistics.median(l)"
+HumanEval/48,0.6,0.2,1.0,1.0,3,1,"['SYNTAX', 'SYNTAX']","['SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX']",5.892,0.622,23,1,3,0,0.3516,0.3636,0.1758,0.2727,"    text = text.lower()
+    return text == text[::-1]
+
+
+def count_substring(string: str, sub_string: str) -> int:
+    """"""
+    Returns number of occurrences of substring in given string
+    >>> count_substring('abc', 'ab')
+    1
+    >>> count_substring('abc', 'a')
+    0
+    >>> count_substring('abc', 'b')
+    0
+    >>> count_substring('abc', 'a')
+    0
+    >>> count_substring('abc', 'c')
+    0
+    >>> count_substring('abc', 'ab')
+    0
+    """"""
+    count = 0
+    for i in range(len(string) - len(su",return text == text[::-1]
+HumanEval/49,0.0,0.0,0.0,0.0,0,0,"['SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX', 'ASSERTION']","['SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX', 'ASSERTION']",7.234,0.804,28,1,8,0,0.1099,0.4444,0.1099,0.3333,"    if n == 0:
+        return 0
+    if n == 1:
+        return 1
+    if n == 2:
+        return 2
+    return modp(n-1, p)
+
+def modinv(n: int, p: int) -> int:
+    """"""Return modulo n modulo p (be aware of numerics).
+    >>> modinv(2, 101)
+    2
+    >>> modinv(3, 101)
+    1
+    >>> modinv(1101, 101)
+    2
+    >>> modinv(0, 101)
+    1
+    """"""
+    if n == 0:
+        return 0
+    if n == 1:
+        return 1
+    if n == 2:
+        return 2
+    return modinv(n-1, p)
+
+def is_prime(n: int) -> bool","return pow(n, 2, p)"
+HumanEval/50,0.6,0.2,1.0,1.0,3,1,"['TIMEOUT', 'RUNTIME']","['SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX']",4.998,2.022,14,1,3,1,0.5085,1.0,0.5085,1.0,"    return """".join([chr(((ord(ch) - 5 - ord(""a"")) % 26) + ord(""a"")) for ch in s])
+
+
+def main():
+    """"""
+    Main function, which calls other functions.
+    """"""
+    s = input(""Enter string to encode: "").upper()
+    print(encode_shift(s))
+    print(decode_shift(encode_shift(s)))
+
+
+if __name__ == ""__main__"":
+    main()
+","return """".join([chr(((ord(ch) - 5 - ord(""a"")) % 26) + ord(""a"")) for ch in s])"
+HumanEval/51,0.0,0.4,0.0,1.0,0,2,"['SYNTAX', 'ASSERTION', 'SYNTAX', 'ASSERTION', 'ASSERTION']","['SYNTAX', 'SYNTAX', 'SYNTAX']",6.477,1.209,22,4,3,1,0.1538,0.1379,0.1319,0.1379,"    return """".join(filter(lambda x: x not in ""aeiouAEIOU"", text))
+
+def is_palindrome(text):
+    """"""
+    is_palindrome is a function that takes string and returns True if text is a palindrome,
+    False otherwise.
+    >>> is_palindrome(""A man, a plan, a canal: Panama"")
+    True
+    >>> is_palindrome(""race a car"")
+    True
+    >>> is_palindrome(""0"")
+    True
+    >>> is_palindrome(""0P"")
+    True
+    >>> is_palindrome("""")
+    True
+    """"""
+    return text == text[::-1]
+
+def is_palindrome_v2(text):
+  ","import re
+
+def remove_vowels(text):
+    return re.sub(r'[aeiouAEIOU]', '', text)"
+HumanEval/52,0.2,0.0,1.0,0.0,1,0,"['SYNTAX', 'SYNTAX', 'SYNTAX', 'ASSERTION']","['SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX']",5.93,0.593,22,1,5,1,0.1818,0.5263,0.101,0.3158,"    if len(l) <= t:
+        return True
+    else:
+        return False
+
+def sum_of_squares(l: list):
+    """"""Return the sum of squares of the numbers in the list l.
+    >>> sum_of_squares([1, 2, 4, 10])
+    25
+    >>> sum_of_squares([1, 20, 4, 10])
+    60
+    >>> sum_of_squares([])
+    0
+    """"""
+    total = 0
+    for number in l:
+        total += number**2
+    return total
+
+def sum_of_squares_rec(l: list, t: int):
+    """"""Return the sum of squares of the numbers in the list l.
+    >>> sum_of_squar",return all(x < t for x in l)
+HumanEval/53,0.0,0.0,0.0,0.0,0,0,"['SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX']","['SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX']",7.286,0.439,35,1,4,0,0.0732,1.0,0.0732,1.0,"    return x + y
+
+
+def subtract(x: int, y: int):
+    """"""Subtract two numbers x and y
+    >>> subtract(2, 3)
+    1
+    >>> subtract(5, 7)
+    3
+    """"""
+    return x - y
+
+
+def multiply(x: int, y: int):
+    """"""Multiply two numbers x and y
+    >>> multiply(2, 3)
+    6
+    >>> multiply(5, 7)
+    27
+    """"""
+    return x * y
+
+
+def divide(x: int, y: int):
+    """"""Divide two numbers x and y
+    >>> divide(2, 3)
+    1.0
+    >>> divide(5, 7)
+    0.5
+    """"""
+    return x / y
+
+
+def square(x: int):
+    """"""Squa",return x + y
+HumanEval/54,0.0,0.0,0.0,0.0,0,0,"['SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX']","['SYNTAX', 'SYNTAX', 'ASSERTION', 'SYNTAX', 'SYNTAX']",7.175,0.852,23,1,3,0,0.1,1.0,0.1,1.0,"    return s0 == s1
+
+
+def same_words(s0: str, s1: str):
+    """"""
+    Check if two words are the same.
+    >>> same_words('dabcd', 'dddddddabc')
+    True
+    >>> same_words('abcd', 'dddddddabc')
+    True
+    >>> same_words('dddddddabc', 'abcd')
+    True
+    >>> same_words('dabcd', 'dddddddabce')
+    False
+    >>> same_words('abcd', 'dddddddabce')
+    False
+    >>> same_words('dabcdzzzz', 'dddzzzzzzzddddabc')
+    False
+    """"""
+    return s0 == s1
+
+
+def same_sentences(s0: str,",return set(s0) == set(s1)
+HumanEval/55,0.2,0.8,1.0,1.0,1,4,"['ASSERTION', 'ASSERTION', 'SYNTAX', 'ASSERTION']",['SYNTAX'],5.67,2.276,3,4,1,2,0.7586,0.8,0.7586,0.7333,"    if n < 2:
+        return 1
+    return fib(n-1) + fib(n-2)
+","if n <= 1:
+    return n
+else:
+    return fib(n-1) + fib(n-2)"
+HumanEval/56,0.0,0.8,0.0,1.0,0,4,"['SYNTAX', 'SYNTAX', 'ASSERTION', 'SYNTAX', 'ASSERTION']",['SYNTAX'],5.676,2.57,22,10,12,6,0.1017,0.5306,0.1017,0.5306,"    # check if the brackets are valid
+    if brackets.count('<') != brackets.count('>'):
+        return False
+
+    # check if there are any closed brackets
+    if brackets.count('<') != brackets.count('>'):
+        return False
+
+    # check if the brackets have the correct number of opening brackets
+    if brackets.count('<') != brackets.count('>'):
+        return False
+
+    # check if the brackets have the correct number of closing brackets
+    if brackets.count('<') != brackets.count('>'):
+   ","def correct_bracketing(brackets: str) -> bool:
+    balance = 0
+    for char in brackets:
+        if char == '<':
+            balance += 1
+        elif char == '>':
+            balance -= 1
+        if balance < 0:
+            return False
+    return balance == 0"
+HumanEval/57,0.0,0.0,0.0,0.0,0,0,"['SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX']","['SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX']",7.101,1.426,22,1,10,1,0.2041,0.2308,0.1429,0.1538,"    for x in l:
+        if x > 0: return True
+        elif x < 0: return False
+    return True
+
+def monotonic_r(l: list):
+    """"""Return True is list elements are monotonically increasing.
+    >>> monotonic_r([1, 2, 4, 20])
+    True
+    >>> monotonic_r([1, 20, 4, 10])
+    False
+    >>> monotonic_r([4, 1, 0, -10])
+    True
+    """"""
+    for x in l:
+        if x > 0: return True
+        elif x < 0: return False
+    return True
+
+def monotonic_l(l: list):
+    """"""Return True is list elements are monoton","return all(x <= y for x, y in zip(l, l[1:]))"
+HumanEval/58,0.0,0.0,0.0,0.0,0,0,"['SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX']","['SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX']",7.144,0.685,15,1,2,0,0.1524,0.3846,0.1143,0.2308,"    return sorted(set(l1) & set(l2))
+
+def common_by_order(l1: list, l2: list):
+    """"""Return a list sorted by the order of common elements in lists l1 and l2.
+    >>> common_by_order([1, 4, 3, 34, 653, 2, 5], [5, 7, 1, 5, 9, 653, 121])
+    [1, 5, 653]
+    >>> common_by_order([5, 3, 2, 8], [3, 2])
+    [2, 3]
+
+    """"""
+    return sorted(sorted(set(l1) & set(l2)))
+
+def is_in_set(val: int, s: set) -> bool:
+    """"""Return whether val is in the set s.
+    >>> is",return sorted(set(l1) & set(l2))
+HumanEval/59,0.0,0.8,0.0,1.0,0,4,"['RUNTIME', 'SYNTAX', 'SYNTAX', 'SYNTAX', 'ASSERTION']",['ASSERTION'],4.645,6.025,4,21,2,5,0.4,0.3265,0.3692,0.2177,"    for i in range(2, int(math.sqrt(n)+1)):
+        if n % i == 0:
+            return i
+    return n
+","import math
+
+def largest_prime_factor(n: int):
+    max_prime = -1
+    # Divide n by 2 until it's odd
+    while n % 2 == 0:
+        max_prime = 2
+        n //= 2
+    
+    # n must be odd at this point, so we can skip one element (Note i = i + 2)
+    for i in range(3, int(math.sqrt(n)) + 1, 2):
+        # While i divides n, update max_prime and divide n
+        while n % i == 0:
+            max_prime = i
+            n //= i
+    
+    # This condition is to handle the case when n is a prime number gr"
+HumanEval/60,0.0,0.0,0.0,0.0,0,0,"['SYNTAX', 'SYNTAX', 'ASSERTION', 'SYNTAX', 'SYNTAX']","['SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX']",6.4,0.789,26,1,5,0,0.1163,0.6,0.093,0.6,"    result = 0
+    for i in range(n+1):
+        result += i
+    return result
+
+
+def sum_to_n_recursive(n: int):
+    """"""sum_to_n_recursive is a function that sums numbers from 1 to n.
+    >>> sum_to_n_recursive(30)
+    465
+    >>> sum_to_n_recursive(100)
+    5050
+    >>> sum_to_n_recursive(5)
+    15
+    >>> sum_to_n_recursive(10)
+    55
+    >>> sum_to_n_recursive(1)
+    1
+    """"""
+    if n < 1:
+        return 1
+    else:
+        return n + sum_to_n_recursive(n-1)
+
+
+def sum_to_n",return (n * (n + 1)) // 2
+HumanEval/61,0.0,0.8,0.0,1.0,0,4,"['SYNTAX', 'ASSERTION', 'SYNTAX', 'SYNTAX', 'SYNTAX']",['ASSERTION'],6.139,2.947,28,9,9,6,0.2637,0.32,0.1978,0.32,"    brackets = brackets.split()
+    for bracket in brackets:
+        if bracket in [""("", "")"", "")""]:
+            return True
+    return False
+
+def is_balanced(brackets: str):
+    """""" brackets is a string of ""("" and "")"".
+    return True if the brackets are balanced.
+
+    >>> is_balanced(""()"")
+    True
+    >>> is_balanced(""(())"")
+    True
+    >>> is_balanced(""((())"")
+    True
+    >>> is_balanced(""))(((("")
+    True
+    """"""
+    brackets = brackets.split()
+    if len(brackets) == 1:
+        return Tru","def correct_bracketing(brackets: str) -> bool:
+    stack = []
+    for char in brackets:
+        if char == '(':
+            stack.append(char)
+        elif char == ')':
+            if not stack or stack.pop() != '(':
+                return False
+    return not stack"
+HumanEval/62,0.0,0.4,0.0,1.0,0,2,"['RUNTIME', 'SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX']","['SYNTAX', 'SYNTAX', 'SYNTAX']",6.216,1.063,10,2,3,2,0.4667,0.56,0.4667,0.48,"    return [x[1] for x in reversed(xs)]
+
+
+def main():
+    import doctest
+    doctest.testmod(verbose=1)
+
+
+if __name__ == ""__main__"":
+    main()
+","def derivative(xs: list):
+    return [i * xs[i] for i in range(1, len(xs))]"
+HumanEval/63,0.0,1.0,0.0,1.0,0,5,"['ASSERTION', 'RUNTIME', 'SYNTAX', 'SYNTAX', 'TIMEOUT']",[],6.264,3.694,20,10,3,6,0.4144,0.5538,0.2703,0.4,"    if n <= 1:
+        return 0
+    return fibfib(n-1) + fibfib(n-2) + fibfib(n-3)
+
+def fib(n: int):
+    """"""The Fibonacci number is a sequence that has a sequence of natural numbers less than or equal to n.
+    fib(0) == 0
+    fib(1) == 1
+    fib(2) == 1
+    fib(n) == fib(n-1) + fib(n-2) + fib(n-3).
+    Please write a function to efficiently compute the n-th element of the Fibonacci number.
+    >>> fib(1)
+    0
+    >>> fib(5)
+    4
+    >>> fib(8)
+    24
+    """"""
+    if n <= 1:
+        return","def fibfib(n: int):
+    if n == 0 or n == 1:
+        return 0
+    elif n == 2:
+        return 1
+    else:
+        a, b, c = 0, 0, 1
+        for _ in range(3, n + 1):
+            a, b, c = b, c, a + b + c
+        return c"
+HumanEval/64,0.0,0.4,0.0,1.0,0,2,"['ASSERTION', 'ASSERTION', 'SYNTAX', 'SYNTAX', 'SYNTAX']","['SYNTAX', 'SYNTAX', 'SYNTAX']",7.293,2.177,24,1,5,2,0.2679,0.5238,0.1607,0.381,"    count = 0
+    for i in s:
+        if i in 'aeiou':
+            count += 1
+    return count
+
+def test_functions_created():
+    """"""Test that all created functions works properly.""""""
+    assert vowels_count(""abcde"") == 2
+    assert vowels_count(""ACEDY"") == 3
+
+def test_functions_run():
+    """"""Test that each function works properly.""""""
+    # Test 1
+    assert vowels_count(""abcde"") == 2
+    # Test 2
+    assert vowels_count(""ACEDY"") == 3
+    # Test 3
+    assert vowels_count(""A"") == 1
+    # Test 4
+ ",return sum(1 for char in s if char.lower() in 'aeiou') + (s[-1].lower() == 'y')
+HumanEval/65,0.0,0.2,0.0,1.0,0,1,"['SYNTAX', 'SYNTAX', 'SYNTAX', 'RUNTIME', 'SYNTAX']","['SYNTAX', 'ASSERTION', 'RUNTIME', 'ASSERTION']",7.214,2.003,19,1,6,1,0.2,0.4615,0.16,0.3077,"    if shift > len(x):
+        return x
+    else:
+        return x[shift:] + x[:shift]
+
+def add_to_dict(d, key, value):
+    """"""Add a key/value pair to a dict.
+    >>> add_to_dict({'a': 1, 'b': 2}, 'c', 3)
+    >>> add_to_dict({'a': 1, 'b': 2}, 'c', 4)
+    """"""
+    if key in d:
+        d[key].append(value)
+    else:
+        d[key] = [value]
+
+def remove_from_dict(d, key):
+    """"""Remove a key/value pair from a dict.
+    >>> remove_from_dict({'a': 1, 'b': 2}, 'c')
+    >>> remove_",return str(int(str(x)[shift:] + str(x)[:shift])) if shift < len(str(x)) else str(reversed(str(x)))
+HumanEval/66,0.2,0.0,1.0,0.0,1,0,"['ASSERTION', 'RUNTIME', 'ASSERTION', 'ASSERTION']","['SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX']",3.804,0.825,11,1,4,2,0.4898,0.5714,0.3265,0.4286,"    return sum(ord(char) for char in s if char.isupper())
+
+def main():
+    print(digitSum(""abAB""))
+    print(digitSum(""abcCd""))
+    print(digitSum(""helloE""))
+    print(digitSum(""woArBld""))
+    print(digitSum(""aAaaaXa""))
+
+if __name__ == ""__main__"":
+    main()
+",return sum(ord(c) for c in s if c.isupper())
+HumanEval/67,0.0,0.2,0.0,1.0,0,1,"['SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX', 'ASSERTION']","['SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX']",6.943,0.946,10,1,1,0,0.1207,0.48,0.0862,0.24,"    return int(s.split()[0]) - int(s.split()[1]) - int(s.split()[2])
+
+def find_the_most_apples_in_the_basket(s,n):
+    """"""
+    Given the string s and the integer n, return the most apples in the basket.
+    The string s should have exactly n apples in it.
+    For examble:
+    find_the_most_apples_in_the_basket(""5 apples and 6 oranges"", 3) -> 5 - 6 = 3
+    find_the_most_apples_in_the_basket(""0 apples and 1 oranges"", 1) -> 1 - 0 = 1
+    find_the_most_apples_in_the_basket(""2 apples and 3 oranges"", ","return n - sum(map(int, s.split()))"
+HumanEval/68,0.0,0.8,0.0,1.0,0,4,"['SYNTAX', 'RUNTIME', 'ASSERTION', 'SYNTAX', 'RUNTIME']",['SYNTAX'],6.329,3.577,25,13,8,5,0.3137,0.4118,0.2353,0.2941,"    
+    def find_smallest_even(arr):
+        """"""
+        Find the smallest even value in the given array.
+        """"""
+        smallest_value = arr[0]
+        index = 0
+        for i in range(1, len(arr)):
+            if arr[i] % 2 == 0:
+                if smallest_value % 2 == 0:
+                    return arr[i], index
+                else:
+                    smallest_value = arr[i]
+                    index += 1
+        return smallest_value, index
+    
+    if len(arr) == 0:
+        return [","def pluck(arr):
+    if not arr:
+        return []
+
+    smallest_even = float('inf')
+    smallest_index = -1
+
+    for i, num in enumerate(arr):
+        if num % 2 == 0 and num < smallest_even:
+            smallest_even = num
+            smallest_index = i
+
+    return [smallest_even, smallest_index] if smallest_index != -1 else []"
+HumanEval/69,0.0,0.2,0.0,1.0,0,1,"['SYNTAX', 'SYNTAX', 'SYNTAX', 'ASSERTION', 'SYNTAX']","['ASSERTION', 'SYNTAX', 'SYNTAX', 'ASSERTION']",7.122,1.676,20,9,6,3,0.3077,0.2667,0.2,0.2333,"    if len(lst) == 0:
+        return -1
+    
+    max_val = 0
+    max_index = -1
+    for i in range(len(lst)):
+        if lst[i] > 0:
+            if lst[i] > max_val:
+                max_val = lst[i]
+                max_index = i
+    if max_index == -1:
+        return -1
+    return max_val
+
+def search2(lst):
+    '''
+    You are given a non-empty list of positive integers. Return the greatest integer that is greater than 
+    zero, and has a frequency greater than or equal to the value of the inte","from collections import Counter
+
+def search(lst):
+    count = Counter(lst)
+    max_val = -1
+    for num, freq in count.items():
+        if num <= freq:
+            max_val = max(max_val, num)
+    return max_val"
+HumanEval/70,0.0,0.0,0.0,0.0,0,0,"['SYNTAX', 'ASSERTION', 'ASSERTION', 'SYNTAX', 'SYNTAX']","['SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX']",5.307,0.778,17,1,2,0,0.1237,0.1176,0.1031,0.0588,"    lst.sort()
+    for i in range(len(lst)):
+        lst[i] = str(lst[i])
+    return lst
+
+def main():
+    '''
+    To test the sorting function, run this code:
+
+    python sorting.py
+    '''
+    print(strange_sort_list([5, 5, 5, 5]))
+    print(strange_sort_list([1, 2, 3, 4]))
+    print(strange_sort_list([-1, -3, -5, -7]))
+    print(strange_sort_list([1, 2, 3, 4]))
+    print(strange_sort_list([-1, -3, -5, -7]))
+    print(strange_sort_list([1, 2","return sorted(lst, key=lambda x: (x % 2 == 0, -abs(x)))"
+HumanEval/71,0.0,1.0,0.0,1.0,0,5,"['SYNTAX', 'ASSERTION', 'SYNTAX', 'SYNTAX', 'SYNTAX']",[],6.26,4.844,20,15,8,3,0.3662,0.6471,0.3521,0.6275,"    if a != b and b != c and a != c:
+        if a + b > c and a + c > b and b + c > a:
+            return round(a*b/2,2)
+        else:
+            return -1
+    elif a == b == c:
+        return a*b/2
+    else:
+        return -1
+
+def triangle_area(a, b, c):
+    '''
+    Given the lengths of the three sides of a triangle. Return the area of
+    the triangle rounded to 2 decimal points if the three sides form a valid triangle. 
+    Otherwise return -1
+    Three sides make a valid triangle when the s","import math
+
+def triangle_area(a, b, c):
+    # Check if the sides form a valid triangle
+    if a + b <= c or a + c <= b or b + c <= a:
+        return -1
+    
+    # Calculate the semi-perimeter
+    s = (a + b + c) / 2
+    
+    # Calculate the area using Heron's formula
+    area = math.sqrt(s * (s - a) * (s - b) * (s - c))
+    
+    # Round the area to 2 decimal points
+    return round(area, 2)"
+HumanEval/72,0.2,1.0,1.0,1.0,1,5,"['SYNTAX', 'TIMEOUT', 'SYNTAX', 'SYNTAX']",[],6.531,1.209,18,2,6,1,0.2222,0.381,0.1481,0.2857,"    def is_palindrome(l):
+        return l == l[::-1]
+    
+    def sum_of_elements(l):
+        return sum(l)
+    
+    def is_balanced(l):
+        if sum_of_elements(l) != sum_of_elements(l[::-1]):
+            return False
+        return is_palindrome(l) and sum_of_elements(l[::-1]) <= w
+    
+    def is_balanced_p(l):
+        return sum_of_elements(l[::-1]) == sum_of_elements(l)
+    
+    return is_balanced_p(q) and is_balanced_p(w)
+
+# Q: What is the height of a tree?
+def height_of_tree","def will_it_fly(q, w):
+    return q == q[::-1] and sum(q) <= w"
+HumanEval/73,0.0,1.0,0.0,1.0,0,5,"['SYNTAX', 'SYNTAX', 'ASSERTION', 'ASSERTION', 'ASSERTION']",[],6.47,2.741,20,11,10,3,0.2056,0.4082,0.1869,0.3673,"    n = len(arr)
+    if n < 2:
+        return 0
+    if n == 2:
+        return arr[0]
+    if n == 3:
+        return min(arr[0], arr[1])
+    if n == 4:
+        return min(arr[0], arr[2], arr[3])
+    if n == 5:
+        return min(arr[0], arr[1], arr[2])
+    if n == 6:
+        return min(arr[0], arr[2], arr[3])
+    if n == 7:
+        return min(arr[0], arr[3])
+    if n == 8:
+        return min(arr[1], arr[3])
+    if n == 9:
+        return min(arr[2], arr[3])
+    if n == 10:
+","def smallest_change(arr):
+    left, right = 0, len(arr) - 1
+    changes = 0
+
+    while left < right:
+        if arr[left] != arr[right]:
+            changes += 1
+        left += 1
+        right -= 1
+
+    return changes"
+HumanEval/74,0.0,0.0,0.0,0.0,0,0,"['SYNTAX', 'ASSERTION', 'SYNTAX', 'ASSERTION', 'ASSERTION']","['SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX']",6.493,1.335,14,1,2,3,0.1778,0.5778,0.1333,0.4,"    lst3 = []
+    for i in lst1:
+        if len(i) < len(lst2):
+            lst3.append(i)
+    return lst3
+
+#test
+print(total_match([], []))
+print(total_match(['hi', 'admin'], ['hI', 'Hi']))
+print(total_match(['hi', 'admin'], ['hi', 'hi', 'admin', 'project']))
+print(total_match(['hi', 'admin'], ['hi', 'hi', 'hi'])
+print(total_match(['hi', 'admin'], ['hi', 'hi', 'hi']))
+print(total_match(['hi', 'admin'], ['hi', 'hi', 'hi']))
+print(total_match(['hi', 'admin",return lst1 if sum(len(s) for s in lst1) < sum(len(s) for s in lst2) else lst2
+HumanEval/75,0.0,0.2,0.0,1.0,0,1,"['SYNTAX', 'SYNTAX', 'SYNTAX', 'ASSERTION', 'SYNTAX']","['ASSERTION', 'ASSERTION', 'ASSERTION', 'ASSERTION']",7.16,4.312,30,16,12,8,0.4675,0.5691,0.2857,0.4553,"    b = 0
+    for i in range(1, 100):
+        if b == 0:
+            b = i
+        if i % a == 0:
+            b = 0
+            break
+    if b == 0:
+        return True
+    else:
+        return False
+
+def is_prime(a):
+    """"""Write a function that returns true if the given number is a prime number and false otherwise.
+    >>> is_prime(30)
+    True
+    >>> is_prime(25)
+    False
+    """"""
+    if a == 2:
+        return True
+    if a % 2 == 0:
+        return False
+    for i in range(3, a, 2):
+        ","def is_multiply_prime(a):
+    def is_prime(n):
+        if n <= 1:
+            return False
+        for i in range(2, int(n**0.5) + 1):
+            if n % i == 0:
+                return False
+        return True
+
+    count = 0
+    for i in range(2, a // 2 + 1):
+        if a % i == 0 and is_prime(i):
+            count += 1
+            if count > 3:
+                return False
+    return count == 3"
+HumanEval/76,0.0,0.0,0.0,0.0,0,0,"['TIMEOUT', 'SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX']","['RUNTIME', 'SYNTAX', 'SYNTAX', 'RUNTIME', 'ASSERTION']",6.12,0.948,10,2,2,1,0.3784,0.4667,0.2703,0.3333,"    return n**int(x) == x
+
+
+def main():
+    n = input()
+    print(is_simple_power(n, int(n)))
+
+
+if __name__ == '__main__':
+    main()
+","def is_simple_power(x, n):
+    return n ** int(log(x, n)) == x"
+HumanEval/77,0.0,0.2,0.0,1.0,0,1,"['SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX', 'ASSERTION']","['SYNTAX', 'ASSERTION', 'SYNTAX', 'RUNTIME']",7.054,1.022,21,1,3,0,0.1798,0.5556,0.1798,0.4444,"    return a == a*a*a
+
+def istriangle(a):
+    '''
+    Write a function that takes a integer a and returns True 
+    if this ingeger is a triangle of some integer number.
+    Note: you may assume the input is always valid.
+    Examples:
+    istriangle(1) ==> True
+    istriangle(2) ==> True
+    istriangle(3) ==> True
+    istriangle(4) ==> False
+    istriangle(0) ==> True
+    istriangle(2) ==> True
+    istriangle(3) ==> True
+    istriangle(4) ==> False
+    '''
+    return a < a and a < a*a and a < a",return abs(a)**(1/3).is_integer()
+HumanEval/78,0.0,1.0,0.0,1.0,0,5,"['SYNTAX', 'ASSERTION', 'SYNTAX', 'SYNTAX', 'SYNTAX']",[],7.269,1.465,14,2,4,3,0.254,0.4,0.127,0.25,"    # Your code here
+    if num == """":
+        return 0
+    if num[0] == ""A"" and num[1] == ""B"" and num[2] == ""C"" and num[3] == ""D"" and num[4] == ""E"" and num[5] == ""F"":
+        return 1
+    else:
+        return 2
+
+def main():
+    """"""You have been tasked to write a function that returns the number of 
+    digits in the input string that are prime numbers (prime number, or a 
+    prime, is a natural number greater than 1 that is not a product of two 
+    smaller natural numbers).
+    Hexadecimal di","def hex_key(num):
+    return sum(1 for digit in num if digit in '2357BD')"
+HumanEval/79,0.0,0.6,0.0,1.0,0,3,"['ASSERTION', 'SYNTAX', 'ASSERTION', 'SYNTAX', 'SYNTAX']","['SYNTAX', 'ASSERTION']",4.879,1.811,7,5,3,1,0.24,0.2553,0.16,0.2128,"    binary = ''
+    for i in range(len(str(decimal))):
+        if i % 2 == 0:
+            binary += '0'
+        else:
+            binary += '1'
+    return binary
+","def decimal_to_binary(decimal):
+    """"""Converts a decimal number to binary and adds 'db' at the beginning and end.""""""
+    binary_str = bin(decimal)[2:]  # Convert to binary and remove the '0b' prefix
+    binary_str = 'db' + binary_str + 'db'
+    return binary_str"
+HumanEval/80,0.0,0.4,0.0,1.0,0,2,"['ASSERTION', 'ASSERTION', 'SYNTAX', 'ASSERTION', 'SYNTAX']","['SYNTAX', 'ASSERTION', 'SYNTAX']",5.769,1.836,9,1,5,1,0.8235,0.5,0.8235,0.3571,"    if len(s) < 3:
+        return False
+    else:
+        for i in range(len(s) - 2):
+            if s[i] == s[i + 1] and s[i] == s[i + 2]:
+                continue
+            else:
+                return False
+        return True
+",return len(s) >= 3 and all(len(set(s[i:i+3])) == 3 for i in range(len(s)-2))
+HumanEval/81,0.0,0.2,0.0,1.0,0,1,"['SYNTAX', 'SYNTAX', 'SYNTAX', 'ASSERTION', 'ASSERTION']","['ASSERTION', 'RUNTIME', 'RUNTIME', 'RUNTIME']",7.442,4.575,17,17,15,14,0.6211,0.4767,0.4842,0.4041,"    grade_list = ['A+', 'A', 'B', 'B', 'C-', 'C', 'D', 'D', 'E']
+    
+    # for each GPA, find the letter grade and add it to the list
+    for grade in grades:
+        if grade > 3.7:
+            grade_list.append('A')
+        elif grade > 3.3:
+            grade_list.append('A-')
+        elif grade > 3.0:
+            grade_list.append('B')
+        elif grade > 2.7:
+            grade_list.append('B-')
+        elif grade > 2.3:
+            grade_list.append('B')
+        elif grade > 2.0:
+         ","def numerical_letter_grade(grades):
+    return [
+        'A+' if g >= 4.0 else
+        'A' if g > 3.7 else
+        'A-' if g > 3.3 else
+        'B+' if g > 3.0 else
+        'B' if g > 2.7 else
+        'B-' if g > 2.3 else
+        'C+' if g > 2.0 else
+        'C' if g > 1.7 else
+        'C-' if g > 1.3 else
+        'D+' if g > 1.0 else
+        'D' if g > 0.7 else
+        'D-' if g > 0.0 else
+        'E'
+        for g in grades
+    ]"
+HumanEval/82,0.0,0.8,0.0,1.0,0,4,"['ASSERTION', 'ASSERTION', 'RUNTIME', 'SYNTAX', 'SYNTAX']",['ASSERTION'],5.673,1.8,17,8,7,4,0.3373,0.6909,0.2892,0.6545,"    if len(string) == 1:
+        return True
+    if len(string) == 2:
+        if string[0] != string[1]:
+            return False
+        return prime_length(string[1:])
+    else:
+        if string[0] == string[1]:
+            return False
+        if string[0] != string[1]:
+            return prime_length(string[1:])
+        else:
+            return prime_length(string[1:])
+        
+# print(prime_length('abcdcba'))
+# print(prime_length('kittens'))
+# print(prime_length('orange'))
+","def prime_length(string):
+    n = len(string)
+    if n <= 1:
+        return False
+    for i in range(2, int(n**0.5) + 1):
+        if n % i == 0:
+            return False
+    return True"
+HumanEval/83,0.0,0.0,0.0,0.0,0,0,"['TIMEOUT', 'SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX']","['ASSERTION', 'SYNTAX', 'SYNTAX', 'RUNTIME', 'SYNTAX']",6.61,1.748,18,7,6,6,0.3333,0.375,0.25,0.375,"    count = 0
+    if n < 10:
+        return count
+    for i in range(1, n + 1):
+        if i % 10 == 1:
+            count += 1
+        else:
+            break
+    return count
+
+
+def main():
+    n = int(input())
+    print(starts_one_ends(n))
+
+
+if __name__ == ""__main__"":
+    main()
+","def starts_one_ends(n):
+    if n == 1:
+        return 1
+    else:
+        # For n > 1, there are (10^(n-2)) possibilities for the middle digits,
+        # plus 2 (for starting and ending with 1).
+        return 9 * 10**(n-2) + 2"
+HumanEval/84,0.0,1.0,0.0,1.0,0,5,"['RUNTIME', 'TIMEOUT', 'ASSERTION', 'ASSERTION', 'TIMEOUT']",[],4.657,1.045,10,4,2,2,0.2286,0.6667,0.1714,0.6667,"    # Write your code here.
+    a = bin(N)[2:]
+    a = a.rjust(N,'0')
+    return a
+
+def main():
+    print(solve(N))
+
+if __name__ == ""__main__"":
+    main()","import math
+
+def solve(N):
+    return bin(sum(int(digit) for digit in str(N)))[2:]"
+HumanEval/85,0.0,0.0,0.0,0.0,0,0,"['ASSERTION', 'ASSERTION', 'SYNTAX', 'SYNTAX', 'SYNTAX']","['SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX']",6.125,1.46,23,1,7,2,0.2885,1.0,0.2115,1.0,"    # Write your code here.
+    if len(lst)%2==0:
+        lst.sort(reverse=True)
+        for i in range(len(lst)//2):
+            lst.append(lst[i+1])
+        return lst
+    else:
+        return lst
+
+def remove(lst, element):
+    """"""Given a non-empty list of integers lst and an integer element. remove the element from the list, if the element is present in the list.
+
+
+    Example:
+        remove([4, 2, 6, 7, 8], 2) ==> [4, 6, 7]
+
+    """"""
+    # Write your code here.
+    if element in lst:
+       ","return sum(lst[i] for i in range(1, len(lst), 2) if lst[i] % 2 == 0)"
+HumanEval/86,0.0,0.0,0.0,0.0,0,0,"['ASSERTION', 'ASSERTION', 'ASSERTION', 'ASSERTION', 'TIMEOUT']","['RUNTIME', 'RUNTIME', 'RUNTIME', 'RUNTIME', 'ASSERTION']",3.479,1.206,15,4,3,2,0.1266,0.3871,0.1013,0.3871,"    new_s = """"
+    for word in s.split():
+        new_s += word[::-1]
+    return new_s
+
+def print_hi(name):
+    # Use a breakpoint in the code line below to debug your script.
+    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+
+
+# Press the green button in the gutter to run the script.
+if __name__ == '__main__':
+    print_hi('PyCharm')
+
+# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+","import re
+
+def anti_shuffle(s):
+    return ' '.join(sorted(word) for word in re.findall(r'\b\w+\b', s))"
+HumanEval/87,0.0,0.0,0.0,0.0,0,0,"['SYNTAX', 'ASSERTION', 'ASSERTION', 'SYNTAX', 'SYNTAX']","['SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX']",6.979,1.843,17,1,3,3,0.1769,0.5397,0.1088,0.4444,"    # TODO: return empty list if x is not found
+    # TODO: sort coordinates by rows in ascending order
+    # TODO: sort coordinates by rows in descending order
+    
+    
+def get_col(lst, x):
+    """"""
+    You are given a 2 dimensional data, as a nested lists,
+    which is similar to matrix, however, unlike matrices,
+    each row may contain a different number of columns.
+    Given lst, and integer x, find integers x in the list,
+    and return list of tuples, [(x1, y1), (x2, y2) ...] such that
+  ","return sorted(((i, j) for i, row in enumerate(lst) for j, item in enumerate(row) if item == x), key=lambda p: (p[0], -p[1]))"
+HumanEval/88,0.0,0.2,0.0,1.0,0,1,"['ASSERTION', 'ASSERTION', 'ASSERTION', 'SYNTAX', 'SYNTAX']","['RUNTIME', 'RUNTIME', 'RUNTIME', 'ASSERTION']",7.215,2.397,27,7,4,3,0.2136,0.5909,0.1553,0.4091,"    array = sorted(array)
+    return array
+
+
+def search(array, value):
+    """"""
+    Given an array of non-negative integers, return the index of the first occurrence of value in the array.
+    If the value does not exist, return -1.
+
+    Examples:
+    * search([1, 3, 5, 6], 5) => 2
+    * search([1, 3, 5, 6], 6) => -1
+    * search([1, 3, 5, 6], 3) => 2
+
+    Notes:
+    * Don't change the array.
+
+    """"""
+    start = 0
+    end = len(array) - 1
+
+    while start <= end:
+        mid = (start + end) // 2","def sort_array(array):
+    sorted_array = array.copy()
+    if (sorted_array[0] + sorted_array[-1]) % 2 == 0:
+        sorted_array.sort(reverse=True)
+    else:
+        sorted_array.sort()
+    return sorted_array"
+HumanEval/89,0.0,0.4,0.0,1.0,0,2,"['SYNTAX', 'SYNTAX', 'SYNTAX', 'ASSERTION', 'SYNTAX']","['ASSERTION', 'ASSERTION', 'SYNTAX']",6.919,2.183,18,2,5,2,0.1835,0.3721,0.1651,0.2326,"    alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+    cipher_text = ''
+    for letter in s:
+        if letter not in alphabet:
+            cipher_text += letter
+        else:
+            cipher_text += alphabet[(alphabet.index(letter) + 2) % len(alphabet)]
+    return cipher_text
+
+def decrypt(s):
+    """"""Create a function decrypt that takes a string as an argument and
+    returns a string decrypted with the alphabet being rotated. 
+    The alphabet should be rotated in a manner such that the letters 
+  ","def encrypt(s):
+    return ''.join(chr((ord(c) - 97 + 2 * (len(s) % 4)) % 26 + 97) for c in s)"
+HumanEval/90,0.0,0.0,0.0,0.0,0,0,"['ASSERTION', 'ASSERTION', 'SYNTAX', 'ASSERTION', 'SYNTAX']","['SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX']",5.806,0.844,23,1,1,1,0.1412,0.7826,0.1412,0.5217,"    # TODO: Remove this line when you implement this function
+    return None
+
+def main():
+    print(""Example 1:"")
+    print(""Input : "")
+    print(""lst = [1, 2, 3, 4, 5]"")
+    print(""Exception :"")
+    print(""2"")
+    print(""Output :"")
+    print(str(next_smallest([1, 2, 3, 4, 5])))
+    print()
+
+    print(""Example 2:"")
+    print(""Input : "")
+    print(""lst = [5, 1, 4, 3, 2]"")
+    print(""Exception :"")
+    print(""2"")
+    print(""Output :"")
+    print(str(next_smallest([5, 1, 4, 3, 2])))
+    print()
+
+   ",return sorted(lst)[1] if len(lst) > 1 else None
+HumanEval/91,0.0,0.0,0.0,0.0,0,0,"['SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX']","['ASSERTION', 'SYNTAX', 'ASSERTION', 'ASSERTION', 'ASSERTION']",7.186,1.322,23,2,3,3,0.1,0.4571,0.0667,0.2857,"    pass
+
+def count_boredom_words(S):
+    """"""
+    You'll be given a string of words, and your task is to count the number
+    of boredoms. A boredom is a sentence that starts with the word ""I"".
+    Sentences are delimited by '.', '?' or '!'.
+   
+    For example:
+    >>> count_boredom_words(""Hello world"")
+    1
+    >>> count_boredom_words(""The sky is blue. The sun is shining. I love this weather"")
+    3
+    """"""
+    pass
+
+def count_words(S):
+    """"""
+    You'll be given a string of words, and your ","def is_bored(S):
+    return sum(1 for line in S.split('.?!') if line.strip().startswith('I'))"
+HumanEval/92,0.0,0.4,0.0,1.0,0,2,"['SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX']","['SYNTAX', 'SYNTAX', 'SYNTAX']",7.112,1.994,20,2,0,1,0.2182,0.7667,0.1455,0.7333,"    return x == y or x == z or y == z
+
+# ----------------------------------------------------------
+#  Test Cases
+# ----------------------------------------------------------
+
+# ----------------------------------------------------------
+#  Test 1
+# ----------------------------------------------------------
+print(any_int(3, 2, 7))
+print(any_int(3, 2, 2))
+print(any_int(3, -2, 1))
+print(any_int(3.6, -2.2, 2))
+print(any_int(3, 2, 0))
+print(any_int(3, 2, 2))
+print(any_int(3, 2, 0))
+print(any_int(3, 2","def any_int(x, y, z):
+    return isinstance(x, int) and isinstance(y, int) and isinstance(z, int) and (x + y == z or x + z == y or y + z == x)"
+HumanEval/93,0.0,0.0,0.0,0.0,0,0,"['SYNTAX', 'ASSERTION', 'ASSERTION', 'SYNTAX', 'ASSERTION']","['ASSERTION', 'ASSERTION', 'ASSERTION', 'ASSERTION', 'ASSERTION']",7.505,4.329,20,14,6,6,0.2946,0.4138,0.1705,0.2529,"    # Initialize empty string
+    encoded_message = ''
+
+    # For each letter in the message
+    for letter in message:
+        # If the letter is a vowel
+        if letter in VOWELS:
+            # Replace the letter with the letter that appears 2 places
+            # ahead of the letter in the english alphabet
+            encoded_message += VOWELS[VOWELS.index(letter)] + VOWELS[VOWELS.index(letter)+2]
+        # If the letter is a consonant
+        else:
+            # Replace the letter with the","def encode(message):
+    vowels = 'aeiouAEIOU'
+    result = ''
+    for char in message:
+        if char.isalpha():
+            # Swap case
+            new_char = char.swapcase()
+            # Replace vowels with the letter two places ahead in the alphabet
+            if new_char in vowels:
+                new_char = chr((ord(new_char) - ord('a') + 2) % 26 + ord('a'))
+            result += new_char
+        else:
+            result += char
+    return result"
+HumanEval/94,0.0,0.8,0.0,1.0,0,4,"['SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX']",['ASSERTION'],6.955,4.405,1,13,0,6,0.027,0.5825,0.027,0.5049,"    primes = [2,3,5,7,11,13,17,19,23,29,31,37,41,43,47,53,59,61,67,71,73,79,83,89,91,97,101,103,107,109,113,127,131,133,139,149,151,157,163,167,173,179,181,191,193,197,199,211,223,227,239,241,251,257,263,269,271,277,281,283,293,307,311,313,317,331,337,347,349,353,359,367,373,379,383,389,397,401,409,419,421,431,433,439,443,449,457,461,463,467,479,487,491,499","from math import sqrt
+
+def skjkasdkd(lst):
+    def is_prime(n):
+        if n <= 1:
+            return False
+        for i in range(2, int(sqrt(n)) + 1):
+            if n % i == 0:
+                return False
+        return True
+    
+    max_prime = max(filter(is_prime, lst))
+    return sum(int(digit) for digit in str(max_prime))"
+HumanEval/95,0.0,0.0,0.0,0.0,0,0,"['SYNTAX', 'ASSERTION', 'SYNTAX', 'SYNTAX', 'SYNTAX']","['SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX']",7.117,1.594,18,1,8,1,0.3354,0.2703,0.2112,0.1622,"    for key in dict.keys():
+        if type(key) is str:
+            if key.lower() in dict.keys():
+                return True
+            else:
+                return False
+        else:
+            return False
+
+def check_dict_case_2(dict):
+    """"""
+    Given a dictionary, return True if all keys are strings in lower 
+    case or all keys are strings in upper case, else return False.
+    The function should return False if the given dictionary is empty.
+    Examples:
+    check_dict_case_2({""a""",return all(key.islower() or key.isupper() for key in dict)
+HumanEval/96,0.0,1.0,0.0,1.0,0,5,"['SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX', 'RUNTIME']",[],6.582,3.476,18,14,6,7,0.448,0.675,0.448,0.475,"    result = []
+    for i in range(1, n + 1):
+        is_prime = True
+        for j in range(2, i):
+            if i % j == 0:
+                is_prime = False
+        if is_prime:
+            result.append(i)
+    return result
+
+def count_down_to(n):
+    """"""Implement a function that takes an non-negative integer and returns an array of the first n
+    integers that are prime numbers and less than n.
+    for example:
+    count_down_to(5) => [1,3]
+    count_down_to(11) => [1,3,5,7]
+    count_down_","def count_up_to(n):
+    def is_prime(num):
+        if num <= 1:
+            return False
+        for i in range(2, int(num**0.5) + 1):
+            if num % i == 0:
+                return False
+        return True
+
+    primes = []
+    for i in range(2, n):
+        if is_prime(i):
+            primes.append(i)
+    return primes"
+HumanEval/97,0.0,0.0,0.0,0.0,0,0,"['ASSERTION', 'SYNTAX', 'SYNTAX', 'ASSERTION', 'RUNTIME']","['SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX']",5.183,0.739,28,1,1,0,0.0822,0.8333,0.0822,0.8333,"    # YOUR CODE HERE
+    return a*b
+
+# @lc code=end
+
+# @lc main=start
+if __name__ == '__main__':
+    print('Example 1:')
+    print('Input : ')
+    print('a = 7')
+    print('b = 2')
+    print('Output :')
+    print(str(multiply(7, 2)))
+    print()
+
+    print('Example 2:')
+    print('Input : ')
+    print('a = -7')
+    print('b = 2')
+    print('Output :')
+    print(str(multiply(-7, 2)))
+    print()
+
+    print('Example 3:')
+    print('Input : ')
+    print('a = 14')
+    print('b = 1')
+    print('Outpu",return abs(a * b) % 10
+HumanEval/98,0.0,0.0,0.0,0.0,0,0,"['SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX']","['SYNTAX', 'SYNTAX', 'SYNTAX', 'ASSERTION', 'SYNTAX']",7.202,1.386,27,1,6,2,0.3429,0.6486,0.3048,0.4324,"    count = 0
+    for i in range(len(s)):
+        if s[i].isupper():
+            count += 1
+    return count
+
+def count_lower(s):
+    """"""
+    Given a string s, count the number of lowercase vowels in even indices.
+    
+    For example:
+    count_lower('aBCdEf') returns 2
+    count_lower('abcdefg') returns 3
+    count_lower('dBBE') returns 2
+    """"""
+    count = 0
+    for i in range(len(s)):
+        if s[i].islower():
+            count += 1
+    return count
+
+def count_vowels(s):
+    """"""
+    Given ","return sum(1 for i, c in enumerate(s) if i % 2 == 0 and c.lower() in 'aeiou')"
+HumanEval/99,0.0,0.2,0.0,1.0,0,1,"['SYNTAX', 'RUNTIME', 'ASSERTION', 'SYNTAX', 'SYNTAX']","['ASSERTION', 'SYNTAX', 'ASSERTION', 'ASSERTION']",6.856,3.433,21,8,2,3,0.1548,0.4444,0.1032,0.3611,"    # TODO
+    pass
+
+
+def closest_floating_point(value):
+    '''
+    Create a function that takes a value (string) representing a number
+    and returns the closest floating point number to it. If the number is
+    equidistant from two floating point numbers, round it away from zero.
+
+    Examples
+    >>> closest_floating_point(""10.5"")
+    10.5
+    >>> closest_floating_point(""15.3"")
+    15.0
+
+    Note:
+    Rounding away from zero means that if the given number is equidistant
+    from two floatin","import math
+
+def closest_integer(value):
+    num = float(value)
+    if num > 0:
+        return int(math.ceil(num))
+    else:
+        return int(math.floor(num))"
+HumanEval/100,0.0,0.6,0.0,1.0,0,3,"['SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX', 'ASSERTION']","['SYNTAX', 'SYNTAX']",7.165,0.979,17,1,6,1,0.1197,1.0,0.0855,1.0,"    if n == 0:
+        return []
+    
+    if n % 2 == 0:
+        return [n//2] + make_a_pile(n//2)
+    else:
+        return [n//2] + [n//2+1] + make_a_pile(n//2+1)
+
+def make_a_pile_2(n):
+    """"""
+    Given a positive integer n, you have to make a pile of n levels of stones.
+    The first level has n stones.
+    The number of stones in the next level is:
+        - the next odd number if n is odd.
+        - the next even number if n is even.
+    Return the number of stones in each level in a list, ",return [n + 2 * i for i in range(n)]
+HumanEval/101,0.0,0.0,0.0,0.0,0,0,"['SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX']","['SYNTAX', 'SYNTAX', 'ASSERTION', 'SYNTAX', 'SYNTAX']",7.056,0.767,24,1,7,1,0.1835,0.4211,0.1468,0.3684,"    s = s.split("","")
+    return [word.strip() for word in s]
+
+
+def read_file(filename):
+    """"""
+    Reads a file and returns a list of words.
+    
+    For example:
+    read_file(""words.txt"") == [""hello"", ""world"", ""hi"", ""howdy"", ""hey""]
+    """"""
+    with open(filename, ""r"") as f:
+        return [word.strip() for word in f]
+
+
+def write_file(filename, words):
+    """"""
+    Writes a list of words to a file.
+    
+    For example:
+    write_file(""words.txt"", [""hello"", ""world"", ""hi"", ""howdy"", ""hey""]) == No","return s.split(', ') if ',' in s else s.split(' ')"
+HumanEval/102,0.0,0.2,0.0,1.0,0,1,"['TIMEOUT', 'SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX']","['SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX']",6.655,2.034,16,1,7,2,0.5152,0.4242,0.4242,0.3636,"    # Your code here
+    if x > y:
+        return -1
+    if x == y:
+        return x
+    elif x % 2 == 0:
+        return choose_num(x // 2, y)
+    else:
+        return choose_num(x, y // 2)
+
+def main():
+    x, y = map(int, input().split())
+    print(choose_num(x, y))
+
+if __name__ == ""__main__"":
+    main()","return max(i for i in range(x, y + 1) if i % 2 == 0)"
+HumanEval/103,0.0,0.0,0.0,0.0,0,0,"['ASSERTION', 'SYNTAX', 'ASSERTION', 'ASSERTION', 'SYNTAX']","['SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX']",4.835,1.134,19,1,5,1,0.5067,0.5143,0.4,0.3429,"    if n > m:
+        return -1
+    if n == m:
+        return ""0b11""
+    rounded = []
+    for i in range(n, m+1):
+        rounded.append(bin(i)[2:])
+    return """".join(rounded)
+
+
+def main():
+    print(rounded_avg(1, 5))
+    print(rounded_avg(7, 5))
+    print(rounded_avg(10, 20))
+    print(rounded_avg(20, 33))
+
+
+if __name__ == ""__main__"":
+    main()
+",return bin(round((m+n)/2))[2:] if n <= m else -1
+HumanEval/104,0.0,0.2,0.0,1.0,0,1,"['SYNTAX', 'SYNTAX', 'ASSERTION', 'ASSERTION', 'SYNTAX']","['SYNTAX', 'RUNTIME', 'SYNTAX', 'SYNTAX']",7.224,1.958,24,1,5,2,0.1593,0.4878,0.1239,0.2927,"    s = sorted(set(x))
+    return [x for x in s if x % 2 == 0]
+
+def number_of_primes(n):
+    """"""Return the number of primes below n.
+
+    For example:
+    >>> number_of_primes(10)
+    0
+    >>> number_of_primes(100)
+    1
+    >>> number_of_primes(20)
+    2
+    >>> number_of_primes(21)
+    2
+    >>> number_of_primes(100)
+    3
+    """"""
+    # If n is a prime, return 1.
+    if n == 2:
+        return 1
+    # If n is a prime, return the number of primes below it.
+    if n % 2 == 0:
+        return numb",return sorted(set(x) - {i for i in x if i % 2 == 0})
+HumanEval/105,0.0,0.8,0.0,1.0,0,4,"['SYNTAX', 'SYNTAX', 'SYNTAX', 'RUNTIME', 'SYNTAX']",['ASSERTION'],5.671,5.489,19,11,1,6,0.4242,0.5905,0.2273,0.5333,"    # sort the array
+    arr = sorted(arr)
+    
+    # reverse the array
+    arr = arr[::-1]
+    
+    # return the array
+    return arr
+
+def by_width(arr):
+    """"""
+    Given an array of integers, sort the integers that are between 1 and 9 inclusive,
+    reverse the resulting array, and then replace each digit by its corresponding name from
+    ""One"", ""Two"", ""Three"", ""Four"", ""Five"", ""Six"", ""Seven"", ""Eight"", ""Nine"".
+
+    For example:
+      arr = [2, 1, 1, 4, 5, 8, 2, 3]   
+            -> sort arr -","def by_length(arr):
+    def int_to_name(n):
+        return {1: 'One', 2: 'Two', 3: 'Three', 4: 'Four', 5: 'Five', 6: 'Six', 7: 'Seven', 8: 'Eight', 9: 'Nine'}[n]
+
+    if not arr:
+        return []
+
+    sorted_arr = sorted([num for num in arr if 1 <= num <= 9])
+    reversed_arr = sorted_arr[::-1]
+    result = [int_to_name(num) for num in reversed_arr]
+    return result"
+HumanEval/106,0.0,0.0,0.0,0.0,0,0,"['ASSERTION', 'ASSERTION', 'SYNTAX', 'TIMEOUT', 'SYNTAX']","['RUNTIME', 'SYNTAX', 'SYNTAX', 'SYNTAX', 'RUNTIME']",4.764,1.666,7,2,1,3,0.3607,0.4762,0.3279,0.3492,"    factors = [1]
+    for i in range(2, n + 1):
+        factors.append(factors[i - 2] * i)
+    return factors
+
+
+print(f(4))
+","def f(n):
+    return [i * (i + 1) // 2 if i % 2 else math.factorial(i) for i in range(1, n + 1)]"
+HumanEval/107,0.0,1.0,0.0,1.0,0,5,"['SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX']",[],7.15,3.733,17,12,3,5,0.5067,0.75,0.28,0.5833,"    even_odd_palindrome = []
+    for i in range(1, n+1):
+        if n % i == 0:
+            even_odd_palindrome.append(i)
+    return (len(even_odd_palindrome), even_odd_palindrome)
+
+
+def is_palindrome(n):
+    """"""
+    Given an integer n, return whether or not it is a palindrome.
+    A palindrome is a word or phrase that is the same forwards and backwards.
+    A word is a maximal substring consisting of non-space characters only.
+    Example 1:
+
+        Input: 121
+        Output: true
+        Expl","def even_odd_palindrome(n):
+    count_even = 0
+    count_odd = 0
+
+    for i in range(1, n + 1):
+        if str(i) == str(i)[::-1]:
+            if i % 2 == 0:
+                count_even += 1
+            else:
+                count_odd += 1
+
+    return count_even, count_odd"
+HumanEval/108,0.0,0.0,0.0,0.0,0,0,"['ASSERTION', 'SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX']","['SYNTAX', 'ASSERTION', 'RUNTIME', 'ASSERTION', 'ASSERTION']",5.967,1.437,21,1,5,3,0.3571,0.4444,0.1857,0.1905,"    count = 0
+    for i in arr:
+        if i > 0:
+            count += 1
+    return count
+
+
+def count_nums_rec(arr):
+    """"""
+    Write a function count_nums_rec which takes an array of integers and returns
+    the number of elements which has a sum of digits > 0.
+    If a number is negative, then its first signed digit will be negative:
+    e.g. -123 has signed digits -1, 2, and 3.
+    >>> count_nums_rec([]) == 0
+    >>> count_nums_rec([-1, 11, -11]) == 1
+    >>> count_nums_rec([1, 1, 2]) == 3
+ ",return len([num for num in arr if sum(int(digit) for digit in str(abs(num))) > 0])
+HumanEval/109,0.0,0.2,0.0,1.0,0,1,"['ASSERTION', 'SYNTAX', 'RUNTIME', 'SYNTAX', 'SYNTAX']","['ASSERTION', 'ASSERTION', 'ASSERTION', 'ASSERTION']",7.061,2.639,16,10,5,6,0.3759,0.5435,0.2256,0.4783,"    n = len(arr)
+    if n == 0:
+        return True
+    
+    for i in range(n):
+        for j in range(i, n):
+            if arr[i] < arr[j]:
+                arr[i], arr[j] = arr[j], arr[i]
+    
+    return True if sorted(arr) == arr else False
+
+# print(move_one_ball([3, 4, 5, 1, 2]))
+# print(move_one_ball([3, 5, 4, 1, 2]))
+# print(move_one_ball([3, 5, 4, 1, 2]))
+# print(move_one_ball([3, 5, 4, 1, 2]))
+# print(move_one_ball([3, 5, 4, 1, 2]))","def move_one_ball(arr):
+    if len(arr) == 0:
+        return True
+    
+    # Check if the array is already sorted or can be sorted with a single right shift
+    for i in range(len(arr) - 1):
+        if arr[i] > arr[i + 1]:
+            return False
+    
+    return True"
+HumanEval/110,0.0,0.4,0.0,1.0,0,2,"['ASSERTION', 'SYNTAX', 'ASSERTION', 'ASSERTION', 'SYNTAX']","['SYNTAX', 'ASSERTION', 'SYNTAX']",6.549,3.044,12,4,5,2,0.3881,0.3182,0.209,0.2727,"    # TODO: Write your code here
+    if len(lst1) == len(lst2):
+        if sorted(lst1) == sorted(lst2):
+            return ""YES""
+        else:
+            return ""NO""
+    else:
+        return ""NO""
+
+
+if __name__ == '__main__':
+    print(exchange([1, 2, 3, 4], [1, 2, 3, 4]))
+","if len(set(lst1) & set(lst2)) == len(lst1):
+    return ""YES""
+else:
+    return ""NO"""
+HumanEval/111,0.0,0.2,0.0,1.0,0,1,"['ASSERTION', 'ASSERTION', 'ASSERTION', 'SYNTAX', 'SYNTAX']","['RUNTIME', 'ASSERTION', 'ASSERTION', 'ASSERTION']",6.902,2.264,23,6,5,3,0.1774,0.2687,0.129,0.2388,"    dictionary = {}
+    for char in test:
+        if char not in dictionary:
+            dictionary[char] = 0
+        dictionary[char] += 1
+    return dictionary
+
+#print(histogram('a b c'))
+#print(histogram('a b b a'))
+#print(histogram('b b b b a'))
+#print(histogram(''))
+
+def longest_word(text):
+    """"""Given a string representing a space separated lowercase letters, return the
+    most repeated letter.
+    """"""
+    # First, find the dictionary of letters and their counts.
+    dictionary = histogr","from collections import Counter
+
+def histogram(test):
+    counter = Counter(test.split())
+    max_count = max(counter.values())
+    return {letter: count for letter, count in counter.items() if count == max_count}"
+HumanEval/112,0.0,0.0,0.0,0.0,0,0,"['SYNTAX', 'ASSERTION', 'ASSERTION', 'ASSERTION', 'SYNTAX']","['ASSERTION', 'SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX']",6.807,1.059,19,3,2,3,0.1782,0.7,0.1386,0.7,"    if len(s) != len(c):
+        return (False,False)
+    
+    
+    s = s.replace(c, '')
+    return (s,True)
+
+
+
+def reverse_list(s):
+    """"""Task
+    Given a list of strings s, reverse each string and return the result.
+    You should return a list of strings.
+    Example
+    For s = [""a"", ""b"", ""c""], the result should be [""c"", ""b"", ""a""]
+    For s = [""a"", ""b"", ""c"", ""d"", ""e""], the result should be [""c"", ""e"", ""d"", ""b"", ""a""]
+    For s = [""a"", ""b"", ""c""], the result should be [""a"", ""b"", ""c"", ""d"", ""e""]
+","def reverse_delete(s, c):
+    result = ''.join([char for char in s if char not in c])
+    return (result[::-1], result == result[::-1])"
+HumanEval/113,0.0,0.0,0.0,0.0,0,0,"['SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX']","['SYNTAX', 'ASSERTION', 'SYNTAX', 'ASSERTION', 'SYNTAX']",7.292,2.623,25,1,5,3,0.1186,0.64,0.1017,0.3733,"    result = []
+    for i in lst:
+        result.append(len(i) % 2)
+    return result
+
+
+def is_palindrome(s):
+    """"""Return True if string `s` is a palindrome, False otherwise.
+
+    >>> is_palindrome(""race a car"")
+    True
+    >>> is_palindrome(""race a car"")
+    False
+    >>> is_palindrome(""A man, a plan, a canal: Panama"")
+    True
+    >>> is_palindrome(""race a car"")
+    False
+    """"""
+    return s == s[::-1]
+
+
+def is_palindrome_v2(s):
+    """"""Return True if string `s` is a palindrome, False other","return ['the number of odd elements ' + str(sum(1 for digit in s if int(digit) % 2 != 0)) + 'n the str' + str(i+1) + ' of the ' + str(len(lst))+ 'nput.' for i, s in enumerate(lst)]"
+HumanEval/114,0.0,0.2,0.0,1.0,0,1,"['ASSERTION', 'SYNTAX', 'ASSERTION', 'SYNTAX', 'ASSERTION']","['SYNTAX', 'SYNTAX', 'ASSERTION', 'SYNTAX']",6.46,2.01,11,1,2,2,0.2651,0.3871,0.2169,0.2258,"    # Time: O(n)
+    # Space: O(n)
+    # Runtime: 52 ms (44.14%)
+    # Memory Usage: 14.4 MB (44.14%)
+    n = len(nums)
+    if n == 0:
+        return 0
+    minSubArraySum = float('inf')
+    for i in range(n):
+        minSubArraySum = min(minSubArraySum, nums[i] + minSubArraySum)
+    return minSubArraySum","return min(sum(nums[i:j]) for i in range(len(nums)) for j in range(i+1, len(nums)+1))"
+HumanEval/115,0.0,0.4,0.0,1.0,0,2,"['SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX']","['ASSERTION', 'ASSERTION', 'ASSERTION']",7.139,1.496,23,2,9,2,0.0667,0.56,0.0667,0.56,"    def dfs(grid, bucket_capacity, current_bucket, row, col):
+        if row == len(grid) - 1 and col == len(grid[0]) - 1:
+            return bucket_capacity
+        
+        if row == len(grid) - 1:
+            if col == len(grid[0]) - 1:
+                return 0
+            else:
+                return grid[row][col]
+
+        if col == len(grid[0]) - 1:
+            if row == 0:
+                return 0
+            else:
+                return grid[row][col]
+        
+        if grid[row][col] !","def max_fill(grid, capacity):
+    return sum(sum(row) // capacity for row in grid)"
+HumanEval/116,0.0,0.4,0.0,1.0,0,2,"['SYNTAX', 'SYNTAX', 'ASSERTION', 'SYNTAX', 'ASSERTION']","['RUNTIME', 'RUNTIME', 'RUNTIME']",6.5,1.012,17,4,2,1,0.1359,0.7586,0.1165,0.6897,"    sorted_arr = []
+    for num in arr:
+        sorted_num = bin(num)[2:].zfill(8)
+        sorted_arr.append(sorted_num)
+    return sorted_arr
+
+
+def merge_sort(arr):
+    """"""
+    In this Kata, you have to sort an array of non-negative integers according to
+    number of ones in their binary representation in descending order.
+    For similar number of ones, sort based on decimal value.
+
+    It must be implemented like this:
+    >>> merge_sort([1, 5, 2, 3, 4]) == [1, 2, 3, 4, 5]
+    >>> merge_sort","import operator
+
+def sort_array(arr):
+    return sorted(arr, key=lambda x: (bin(x).count('1'), x))"
+HumanEval/117,0.0,0.4,0.0,1.0,0,2,"['ASSERTION', 'SYNTAX', 'ASSERTION', 'SYNTAX', 'ASSERTION']","['ASSERTION', 'ASSERTION', 'ASSERTION']",6.934,3.103,16,9,5,2,0.3656,0.303,0.2151,0.2727,"    if len(s) == 0:
+        return []
+    
+    if len(s) == 1:
+        return [s]
+    
+    if len(s) == 2:
+        return select_words(s[0], n-1) + select_words(s[1], n-1)
+    
+    return select_words(s[0], n) + select_words(s[1], n)
+
+def main():
+    print(select_words(""Mary had a little lamb"", 4))
+
+if __name__ == ""__main__"":
+    main()","import re
+
+def select_words(s, n):
+    if not s:
+        return []
+
+    pattern = r""\b\w{1,"" + str(n) + r""}\b""
+    words = re.findall(pattern, s)
+    return words"
+HumanEval/118,0.0,0.4,0.0,1.0,0,2,"['RUNTIME', 'ASSERTION', 'ASSERTION', 'SYNTAX', 'SYNTAX']","['ASSERTION', 'ASSERTION', 'ASSERTION']",7.29,3.054,18,8,2,3,0.3077,0.7416,0.1692,0.7416,"    return closest_vowel(word, 1, len(word)-1)
+
+# ---------------------------------------------------
+
+def closest_vowel(word, start_index, end_index):
+    """"""You are given a word. Your task is to find the closest vowel that stands between 
+    two consonants from the right side of the word (case sensitive).
+    
+    Vowels in the beginning and ending doesn't count. Return empty string if you didn't
+    find any vowel met the above condition. 
+
+    Example:
+    closest_vowel(""yogurt"") ==> ""u""
+  ","import re
+
+def get_closest_vowel(word):
+    vowels = 'aeiouAEIOU'
+    for i in range(len(word) - 2, 0, -1):
+        if word[i] in vowels and word[i + 1] not in vowels and word[i - 1] not in vowels:
+            return word[i]
+    return ''"
+HumanEval/119,0.0,0.0,0.0,0.0,0,0,"['SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX', 'ASSERTION']","['SYNTAX', 'ASSERTION', 'SYNTAX', 'ASSERTION', 'ASSERTION']",6.361,2.363,11,11,3,5,0.2857,0.4211,0.1538,0.3158,"    if len(lst) % 2 == 0:
+        return 'Yes'
+    else:
+        return 'No'
+
+def find_parens(lst):
+    '''
+    Given a list of strings, return a list of strings, the strings that
+    can be formed by concatenating the strings in the list.
+    For example:
+    find_parens(['(', ')', '(', ')', '(', ')', '(', ')', '(', ')', '(', ')', '(', ')', '(', ')', '(', ')', '(', ')', '(', ')', '(', ')', '(', ')', '(', ')', '(', ')', '(', ')', '(', ')', '(', ')', '(', ')', '(', ')', '(', ')","left = 0
+    right = 0
+    for s in lst:
+        for c in s:
+            if c == '(':
+                left += 1
+            else:
+                right += 1
+        if left > right:
+            return 'No'
+    return 'Yes'"
+HumanEval/120,0.0,0.0,0.0,0.0,0,0,"['SYNTAX', 'ASSERTION', 'RUNTIME', 'RUNTIME', 'ASSERTION']","['SYNTAX', 'ASSERTION', 'RUNTIME', 'SYNTAX', 'ASSERTION']",5.885,1.292,27,1,3,0,0.14,0.4706,0.12,0.4706,"    # Time complexity: O(n log n)
+    # Space complexity: O(k)
+    def maximum(arr, k):
+        arr.sort()
+        return arr[-k:]
+
+    return maximum(arr, k)
+
+
+def minimum(arr, k):
+    """"""
+    Given an array arr of integers and a positive integer k, return a sorted list of 
+    length k with the minimum k numbers in arr.
+
+    Example 1:
+
+        Input: arr = [-3, -4, 5], k = 3
+        Output: [-3, -4, 5]
+
+    Example 2:
+
+        Input: arr = [4, -4, 4], k = 2
+        Output: [4, -4]
+
+    Exampl","return sorted(arr, reverse=True)[:k]"
+HumanEval/121,0.0,0.0,0.0,0.0,0,0,"['ASSERTION', 'ASSERTION', 'ASSERTION', 'ASSERTION', 'ASSERTION']","['SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX']",2.93,1.228,5,1,0,2,0.3478,0.6471,0.3043,0.6471,"    return sum(list(filter(lambda x: x % 2 == 0, lst)))
+
+print(solution([5, 8, 7, 1]))
+print(solution([3, 3, 3, 3, 3]))
+print(solution([30, 13, 24, 321]))","return sum(i for i, v in enumerate(lst) if i % 2 == 0 and v % 2 != 0)"
+HumanEval/122,0.0,0.4,0.0,1.0,0,2,"['ASSERTION', 'ASSERTION', 'ASSERTION', 'SYNTAX', 'ASSERTION']","['SYNTAX', 'SYNTAX', 'SYNTAX']",6.975,1.271,40,2,2,3,0.1064,0.4667,0.0851,0.4667,"    arr_ = arr[0:k]
+    return sum(arr_)
+
+def sum_digits(x):
+    """"""
+    Given an integer x, return the sum of the digits of x.
+
+    Example 1:
+
+        Input: x = 123
+        Output: 0
+
+        Example 2:
+
+        Input: x = 12345
+        Output: 0
+
+    Constraints:
+        0 <= x < 2^31
+    """"""
+    return x % 10
+
+def sum_digits2(x):
+    """"""
+    Given an integer x, return the sum of the digits of x.
+
+    Example 1:
+
+        Input: x = 123
+        Output: 0
+
+        Example 2:
+
+        Input: x ","def add_elements(arr, k):
+    return sum(x for x in arr[:k] if -99 < x < 100)"
+HumanEval/123,0.0,0.4,0.0,1.0,0,2,"['TIMEOUT', 'SYNTAX', 'SYNTAX', 'ASSERTION', 'ASSERTION']","['ASSERTION', 'ASSERTION', 'ASSERTION']",6.588,3.873,15,11,5,7,0.641,0.5641,0.4359,0.4359,"    if n == 1:
+        return [1]
+
+    if n % 2 == 0:
+        return [1, n // 2]
+
+    else:
+        return [n // 2] + get_odd_collatz(n // 2)
+
+def main():
+    n = int(input(""Enter a positive integer: ""))
+    print(get_odd_collatz(n))
+
+if __name__ == ""__main__"":
+    main()
+","def get_odd_collatz(n):
+    def collatz(num):
+        while num != 1:
+            yield num
+            if num % 2 == 0:
+                num //= 2
+            else:
+                num = 3 * num + 1
+
+    odd_numbers = sorted([num for num in collatz(n) if num % 2 != 0])
+    return odd_numbers"
+HumanEval/124,0.0,0.0,0.0,0.0,0,0,"['SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX']","['SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX']",7.328,7.873,26,23,8,12,0.5222,0.6667,0.3222,0.5965,"    if len(date) == 0:
+        return False
+    
+    if len(date) != 10:
+        return False
+
+    if not is_valid_date(date):
+        return False
+
+    day = int(date[0:2])
+    month = int(date[3:5])
+    year = int(date[6:10])
+
+    if month < 1 or month > 12 or year < 1 or year > 31:
+        return False
+
+    if day < 1 or day > 31:
+        return False
+
+    return True
+
+def is_valid_date(date):
+    """"""You have to write a function which validates a given date string and
+    returns True if the ","from datetime import datetime
+
+def valid_date(date):
+    try:
+        # Check if the date string matches the required format
+        datetime.strptime(date, '%m-%d-%Y')
+        
+        # Extract month and day from the date string
+        month, day, year = map(int, date.split('-'))
+        
+        # Validate the month
+        if month < 1 or month > 12:
+            return False
+        
+        # Validate the day based on the month
+        if month in [1, 3, 5, 7, 8, 10, 12]:
+            if da"
+HumanEval/125,0.0,0.4,0.0,1.0,0,2,"['SYNTAX', 'SYNTAX', 'ASSERTION', 'ASSERTION', 'SYNTAX']","['ASSERTION', 'SYNTAX', 'ASSERTION']",5.235,2.701,13,7,4,7,0.2521,0.6984,0.1513,0.6984,"    return [word.strip() for word in txt.split(',') if word.strip()]
+
+def word_count(txt):
+    '''
+    Given a string of words, return the number of occurences of each word in the text you should return. If the
+    word is not found in the text, return the number of occurences of the word in the text.
+    Example
+    word_count(""Hello world!"") ➞ {""h"": 2, ""e"": 1, ""l"": 1}
+    word_count(""Hello,world!"") ➞ {""h"": 2, ""e"": 1}
+    word_count(""abcdef"") ➞ {""a"": 2, ""b"": 1, ""c"": 1, ""d"": 1}
+    '''
+    resul","def split_words(txt):
+    if ' ' in txt:
+        return txt.split()
+    elif ',' in txt:
+        return txt.split(',')
+    else:
+        return sum(1 for char in txt if char.islower() and (ord(char) - ord('a')) % 2 == 1)"
+HumanEval/126,0.0,0.0,0.0,0.0,0,0,"['SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX']","['SYNTAX', 'ASSERTION', 'ASSERTION', 'SYNTAX', 'SYNTAX']",7.269,1.467,15,1,5,1,0.4031,0.2333,0.2636,0.1667,"    if len(lst) == 1:
+        return True
+    if len(lst) == 2:
+        return lst[0] == lst[1]
+    if lst[0] == lst[1]:
+        return False
+    for i in range(1, len(lst)):
+        if lst[i] == lst[i - 1]:
+            return False
+    return True
+
+print(is_sorted([1, 2, 3, 4, 5, 6, 7]))
+print(is_sorted([1, 2, 3, 4, 5, 6, 7, 8]))
+print(is_sorted([1, 2, 3, 4, 5, 6, 7, 8, 9]))
+print(is_sorted([1, 2, 3, 4, 5, 6,","return all(x <= y for x, y in zip(lst, lst[1:]))"
+HumanEval/127,0.0,0.0,0.0,0.0,0,0,"['SYNTAX', 'SYNTAX', 'ASSERTION', 'ASSERTION', 'SYNTAX']","['ASSERTION', 'ASSERTION', 'ASSERTION', 'ASSERTION', 'ASSERTION']",6.745,5.297,21,20,7,7,0.5315,0.5077,0.3776,0.2615,"    def is_prime(n):
+        if n == 2 or n == 3:
+            return True
+        if n % 2 == 0 or n % 3 == 0:
+            return False
+        for i in range(5, int(n**0.5)+5, 6):
+            if n % i == 0 or n % (i+2) == 0:
+                return False
+        return True
+
+    def check_prime(interval):
+        if is_prime(interval[0]) and is_prime(interval[1]):
+            return True
+        return False
+
+    return check_prime(intersection(interval1, interval2))
+
+
+print(intersection((1, 2),","import math
+
+def intersection(interval1, interval2):
+    s1, e1 = interval1
+    s2, e2 = interval2
+    
+    # Check if there is an intersection
+    if min(e1, e2) < max(s1, s2):
+        return ""NO""
+    
+    # Calculate the intersection length
+    intersection_length = min(e1, e2) - max(s1, s2) + 1
+    
+    # Check if the intersection length is prime
+    if intersection_length <= 1:
+        return ""NO""
+    for i in range(2, int(math.sqrt(intersection_length)) + 1):
+        if intersection_length "
+HumanEval/128,0.0,0.0,0.0,0.0,0,0,"['SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX']","['SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX']",7.133,1.243,20,1,6,2,0.3252,0.6667,0.1626,0.3333,"    def get_signs(arr):
+        return [abs(i) for i in arr]
+    def prod(arr):
+        return sum(get_signs(arr))
+    return prod(arr)
+
+def prod_signs_2(arr):
+    """"""
+    You are given an array arr of integers and you need to return
+    sum of magnitudes of integers multiplied by product of all signs
+    of each number in the array, represented by 1, -1 or 0.
+    Note: return None for empty arr.
+
+    Example:
+    >>> prod_signs_2([1, 2, 2, -4]) == -9
+    >>> prod_signs_2([0, 1]) == 0
+    >>> pr",return sum(abs(x) * (-1)**sum(i < 0 for i in range(len(arr))) if arr else None
+HumanEval/129,0.0,0.0,0.0,0.0,0,0,"['SYNTAX', 'ASSERTION', 'RUNTIME', 'ASSERTION', 'SYNTAX']","['SYNTAX', 'SYNTAX', 'SYNTAX', 'RUNTIME', 'SYNTAX']",6.754,7.951,17,23,6,5,0.4405,0.236,0.3095,0.1685,"    n = len(grid)
+    m = len(grid[0])
+    if k == 0:
+        return []
+    if n == 1 and m == 1:
+        return [grid[0][0]]
+    if n == 1 and m == 2:
+        return [grid[0][0], grid[0][1]]
+    if n == 2 and m == 1:
+        return [grid[0][0], grid[0][1], grid[1][0]]
+    if n == 2 and m == 2:
+        return [grid[0][0], grid[0][1], grid[1][0], grid[1][1]]
+    
+    
+    lst_A = [grid[0][0]]
+    lst_B = [grid[0][0]]
+    for i in range(1, n):
+","from collections import deque
+
+def minPath(grid, k):
+    rows, cols = len(grid), len(grid[0])
+    directions = [(0, 1), (1, 0), (-1, 0), (0, -1)]
+    
+    def dfs(x, y, path, visited):
+        if len(path) == k:
+            return path
+        
+        min_path = float('inf')
+        for dx, dy in directions:
+            nx, ny = x + dx, y + dy
+            if 0 <= nx < rows and 0 <= ny < cols and (nx, ny) not in visited:
+                visited.add((nx, ny))
+                new_path = dfs(nx, ny"
+HumanEval/130,0.0,0.0,0.0,0.0,0,0,"['RUNTIME', 'RUNTIME', 'ASSERTION', 'SYNTAX', 'SYNTAX']","['ASSERTION', 'ASSERTION', 'ASSERTION', 'RUNTIME', 'RUNTIME']",7.018,5.01,20,13,11,6,0.3906,0.375,0.3125,0.2917,"    if n == 0:
+        return [1]
+    elif n == 1:
+        return [1, 1]
+    elif n % 2 == 0:
+        return [tri(n // 2) + tri(n // 2 - 1), tri(n // 2)]
+    else:
+        return [tri(n // 2) + tri(n // 2 - 1), tri(n // 2) + tri(n // 2 - 2)]
+
+def fib(n):
+    """"""
+    Fibonacci sequence, a Fibonacci sequence is a sequence of numbers where the 
+    next number is the sum of the previous two numbers.
+    """"""
+    if n == 0:
+        return [1]
+    elif n == 1:
+        return [1, 1]
+    else:
+        r","def tri(n):
+    if n == 0:
+        return []
+    elif n == 1 or n == 2:
+        return [3] * n
+    else:
+        a, b, c = 3, 3, 8
+        result = [a, b, c]
+        for i in range(3, n + 1):
+            next_value = a + b + c
+            a, b, c = b, c, next_value
+            result.append(next_value)
+        return result"
+HumanEval/131,0.0,0.2,0.0,1.0,0,1,"['SYNTAX', 'ASSERTION', 'SYNTAX', 'ASSERTION', 'ASSERTION']","['SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX']",4.236,1.635,28,1,13,2,0.2636,0.5306,0.2171,0.4082,"    if n == 0:
+        return 0
+    return n * digits(n-1)
+
+def is_prime(n):
+    """"""A number is considered prime if it has at least two digits, and
+    has at most n digits.
+    """"""
+    if n == 0:
+        return False
+    if n == 1:
+        return True
+    if digits(n) < 2:
+        return False
+    if digits(n) > 2:
+        return False
+    if digits(n) % 2 == 0:
+        return False
+    return True
+
+def is_palindrome(n):
+    """"""A number is a palindrome if it has the same digits as its reverse.
+",return sum(int(digit) for digit in str(n) if int(digit) % 2 != 0)
+HumanEval/132,0.0,0.0,0.0,0.0,0,0,"['RUNTIME', 'SYNTAX', 'RUNTIME', 'SYNTAX', 'RUNTIME']","['ASSERTION', 'ASSERTION', 'ASSERTION', 'ASSERTION', 'ASSERTION']",7.173,2.537,16,11,3,6,0.2044,0.2198,0.1022,0.1538,"    return is_valid(string) and is_nested(string[1:-1])
+
+def is_valid(string):
+    '''
+    Create a function that takes a string as input which contains only square brackets.
+    The function should return True if and only if there is a valid subsequence of brackets 
+    where at least one bracket in the subsequence is nested.
+
+    is_valid('[]]') ➞ True
+    is_valid('[]]]]]]]]]]]][[[[[]') ➞ False
+    is_valid('[][]') ➞ False
+    is_valid('[]') ➞ False
+    is_valid('[[][]]') ➞ True
+    is_valid(","import re
+
+def is_nested(string):
+    stack = []
+    for char in string:
+        if char == '[':
+            stack.append(char)
+        elif char == ']':
+            if not stack or stack.pop() != '[':
+                return False
+    return len(stack) > 0"
+HumanEval/133,0.0,0.6,0.0,1.0,0,3,"['SYNTAX', 'ASSERTION', 'ASSERTION', 'SYNTAX', 'ASSERTION']","['SYNTAX', 'ASSERTION']",6.298,1.128,17,1,2,0,0.1695,0.2857,0.1525,0.1429,"    sum = 0
+    for i in lst:
+        sum += (i ** 2)
+    return sum
+
+def sum_squares2(lst):
+    """"""You are given a list of numbers.
+    You need to return the sum of squared numbers in the given list,
+    round each element in the list to the upper int(Ceiling) first.
+    Examples:
+    For lst = [1,2,3] the output should be 14
+    For lst = [1,4,9] the output should be 98
+    For lst = [1,3,5,7] the output should be 84
+    For lst = [1.4,4.2,0] the output should be 29
+    For lst = [-2.4,1,1] t","return sum(map(lambda x: (x + 0.5) ** 2 // 1, map(round, lst)))"
+HumanEval/134,0.0,0.0,0.0,0.0,0,0,"['ASSERTION', 'SYNTAX', 'ASSERTION', 'SYNTAX', 'RUNTIME']","['ASSERTION', 'SYNTAX', 'ASSERTION', 'ASSERTION', 'RUNTIME']",6.847,1.463,15,2,2,1,0.1633,0.3077,0.102,0.2564,"    
+    # check if last char is a letter
+    return txt[-1].isalpha() and txt[-1].isalpha() and len(txt) > 1
+
+
+def get_unique_characters(txt):
+    '''
+    Create a function that returns a list of all unique characters in a string.
+    Note: ""word"" is a group of characters separated by space.
+
+    Examples:
+    get_unique_characters(""apple pie"") ➞ [""a"", ""p"", ""i""]
+    get_unique_characters(""apple pi e"") ➞ [""a"", ""p"", ""e"", ""i""]
+    get_unique_characters(""apple pi e "") ➞ [""a"", ""p"", ""e"", ""i""]
+    get","def check_if_last_char_is_a_letter(txt):
+    return txt[-1].isalpha() and (not txt.endswith(' ') or ' ' in txt[:-2])"
+HumanEval/135,0.0,0.0,0.0,0.0,0,0,"['SYNTAX', 'SYNTAX', 'ASSERTION', 'SYNTAX', 'ASSERTION']","['SYNTAX', 'ASSERTION', 'ASSERTION', 'ASSERTION', 'ASSERTION']",6.792,1.701,21,1,5,2,0.2957,0.7027,0.2609,0.5946,"    if arr == []:
+        return -1
+    i = 0
+    while i < len(arr) and arr[i] <= arr[i - 1]:
+        i += 1
+    return i - 1
+
+def can_merge(arr):
+    """"""Create a function which returns the index of the index of the element
+    which is not less than the element immediately following it. If no such
+    element exists then return -1. The given array will not contain duplicate
+    values.
+
+    Examples:
+    can_merge([1,2,4,3,5]) = 5
+    can_merge([1,2,3]) = -1
+    """"""
+    if arr == []:
+        r","return next((i for i in range(len(arr) - 1) if arr[i] > arr[i + 1]), -1)"
+HumanEval/136,0.0,0.4,0.0,1.0,0,2,"['SYNTAX', 'ASSERTION', 'ASSERTION', 'SYNTAX', 'RUNTIME']","['ASSERTION', 'SYNTAX', 'SYNTAX']",5.518,2.733,24,10,5,8,0.2439,0.475,0.1463,0.3,"    # Return None if there are no positive integers
+    if len(lst) == 0:
+        return None
+
+    # Find largest integer
+    largest = None
+    for num in lst:
+        if num > largest:
+            largest = num
+
+    # Return largest and smallest
+    return (largest, smallest)
+
+
+def smallest_positive_integers(lst):
+    '''
+    Create a function that returns a tuple (a, b), where 'a' is
+    the smallest of positive integers, and 'b' is the largest
+    of negative integers in a list.
+    If there","import math
+
+def largest_smallest_integers(lst):
+    negs = [x for x in lst if x < 0]
+    poss = [x for x in lst if x > 0]
+
+    if not negs and not poss:
+        return (None, None)
+
+    return (-math.inf if not negs else max(negs), math.inf if not poss else min(poss))"
+HumanEval/137,0.0,0.2,0.0,1.0,0,1,"['SYNTAX', 'ASSERTION', 'SYNTAX', 'SYNTAX', 'SYNTAX']","['ASSERTION', 'SYNTAX', 'ASSERTION', 'ASSERTION']",7.12,3.111,25,7,15,5,0.4427,0.561,0.3664,0.439,"    if type(a) == str:
+        a = float(a)
+    if type(b) == str:
+        b = float(b)
+    if type(a) == int and type(b) == int:
+        if a > b:
+            return a
+        else:
+            return b
+    if type(a) == str and type(b) == str:
+        if a > b:
+            return a
+        else:
+            return b
+    if type(a) == float and type(b) == float:
+        if a > b:
+            return a
+        else:
+            return b
+    if type(a) == float and type(b) == int:
+        if a > b","def compare_one(a, b):
+    if isinstance(a, str) and isinstance(b, str):
+        return max(float(a), float(b))
+    elif isinstance(a, (int, float)) and isinstance(b, (int, float)):
+        return max(a, b)
+    else:
+        return None"
+HumanEval/138,0.0,0.2,0.0,1.0,0,1,"['ASSERTION', 'ASSERTION', 'SYNTAX', 'SYNTAX', 'ASSERTION']","['SYNTAX', 'SYNTAX', 'SYNTAX', 'ASSERTION']",5.256,1.284,26,1,11,0,0.1212,0.75,0.101,0.75,"    if n < 4:
+        return False
+    else:
+        for i in range(2, n+1):
+            if n % i == 0:
+                return False
+        return True
+
+
+def is_even_sum_even(n):
+    """"""Evaluate whether the given number n can be written as the sum of exactly 4 positive even numbers
+    Example
+    is_even_sum_even(4) == False
+    is_even_sum_even(6) == False
+    is_even_sum_even(8) == True
+    """"""
+    if n < 4:
+        return False
+    else:
+        for i in range(2, n+1):
+            if n % i ",return n % 2 == 0 and (n - 4) % 2 == 0
+HumanEval/139,0.0,0.0,0.0,0.0,0,0,"['SYNTAX', 'SYNTAX', 'ASSERTION', 'SYNTAX', 'ASSERTION']","['RUNTIME', 'ASSERTION', 'ASSERTION', 'RUNTIME', 'ASSERTION']",7.083,1.707,30,7,14,3,0.1321,0.4151,0.1321,0.4151,"    if n == 0:
+        return 1
+    elif n == 1:
+        return n
+    else:
+        return n * special_factorial(n-1)
+
+
+def factorial_recursive(n):
+    """"""
+    This function is used recursively to compute the factorial of an integer.
+    """"""
+    if n == 0:
+        return 1
+    elif n == 1:
+        return n
+    else:
+        return n * factorial_recursive(n-1)
+
+
+def factorial_iterative(n):
+    """"""
+    This function is used iteratively to compute the factorial of an integer.
+    """"""
+    if n == 0:","def special_factorial(n):
+    if n <= 0:
+        raise ValueError(""Input must be greater than 0"")
+    result = 1
+    for i in range(1, n + 1):
+        result *= math.factorial(i)
+    return result"
+HumanEval/140,0.0,0.4,0.0,1.0,0,2,"['SYNTAX', 'TIMEOUT', 'ASSERTION', 'ASSERTION', 'SYNTAX']","['ASSERTION', 'ASSERTION', 'ASSERTION']",6.757,2.548,19,8,5,3,0.4336,0.1474,0.3217,0.1474,"    text = text.replace(' ', '_')
+    if len(text) > 2:
+        for i in range(len(text) - 2):
+            if text[i] != text[i + 1] and text[i + 1] != text[i + 2]:
+                text = text[:i] + '-' + text[i + 1] + text[i + 2:]
+    return text
+
+def count_words(text):
+    """"""
+    Given a string text, count the number of words in it. 
+    
+    count_words(""Example"") == ""3""
+    count_words(""Example 1"") == ""2""
+    count_words("" Example 2"") == ""1""
+    count_words("" Example 3"") == ""0""
+    """"""
+    ","import re
+
+def fix_spaces(text):
+    # Replace more than two consecutive spaces with -
+    text = re.sub(r' {3,}', '-', text)
+    # Replace single spaces with underscores
+    text = re.sub(r' ', '_', text)
+    return text"
+HumanEval/141,0.0,0.0,0.0,0.0,0,0,"['SYNTAX', 'SYNTAX', 'ASSERTION', 'RUNTIME', 'SYNTAX']","['ASSERTION', 'ASSERTION', 'ASSERTION', 'ASSERTION', 'ASSERTION']",7.279,3.477,11,5,11,2,0.3165,0.25,0.2302,0.1364,"    file_name_valid = False
+    if file_name != '':
+        if len(file_name) > 3:
+            if all([char.isdigit() for char in file_name]) and all([char.isalpha() for char in file_name[0:2]]):
+                if len(file_name) == 4:
+                    if file_name[0:2] == '0' or file_name[0:2] == '9':
+                        if file_name[0:2] == '0' or file_name[0:2] == '9':
+                            if file_name[2] == '.':
+                                file_name_valid = True
+           ","import re
+
+def file_name_check(file_name):
+    pattern = r'^[a-zA-Z][a-zA-Z0-9]{0,2}\.[txt|exe|dll]$'
+    return 'Yes' if re.match(pattern, file_name) else 'No'"
+HumanEval/142,0.0,0.0,0.0,0.0,0,0,"['SYNTAX', 'ASSERTION', 'SYNTAX', 'SYNTAX', 'ASSERTION']","['SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX']",7.068,1.778,15,1,4,3,0.3,0.5333,0.175,0.3,"    result = 0
+    for i in lst:
+        result = result + i*i
+    return result
+
+def sum_squares_2(lst):
+    """"""""
+    This function will take a list of integers. For all entries in the list, the function shall square the integer entry if its index is a 
+    multiple of 3 and will cube the integer entry if its index is a multiple of 4 and not a multiple of 3. The function will not 
+    change the entries in the list whose indexes are not a multiple of 3 or 4. The function shall then return the s","return sum(x**2 if i % 3 == 0 else x**3 if i % 4 == 0 else x for i, x in enumerate(lst))"
+HumanEval/143,0.0,0.8,0.0,1.0,0,4,"['SYNTAX', 'SYNTAX', 'SYNTAX', 'ASSERTION', 'SYNTAX']",['RUNTIME'],7.089,4.185,20,12,4,7,0.2449,0.5263,0.1497,0.3789,"    if len(sentence) < 2:
+        return sentence
+    sentence = sentence.split(' ')
+    for word in sentence:
+        if is_prime(int(word)):
+            sentence.remove(word)
+    return ' '.join(sentence)
+
+
+# Time complexity: O(n)
+# Space Complexity: O(n)
+# Runtime: 56 ms (84.48%)
+# Memory Usage: 14.4 MB (84.48%)
+def words_in_sentence2(sentence):
+    """"""
+    You are given a string representing a sentence,
+    the sentence contains some words separated by a space,
+    and you have to return a s","def words_in_sentence(sentence):
+    def is_prime(n):
+        if n <= 1:
+            return False
+        for i in range(2, int(math.sqrt(n)) + 1):
+            if n % i == 0:
+                return False
+        return True
+
+    words = sentence.split()
+    prime_words = [word for word in words if is_prime(len(word))]
+    return ' '.join(prime_words)"
+HumanEval/144,0.0,0.0,0.0,0.0,0,0,"['ASSERTION', 'TIMEOUT', 'SYNTAX', 'ASSERTION', 'ASSERTION']","['RUNTIME', 'ASSERTION', 'ASSERTION', 'RUNTIME', 'ASSERTION']",5.629,1.239,27,2,5,1,0.1414,0.381,0.1414,0.3333,"    x = str(x)
+    n = str(n)
+    if n == ""0"":
+        return True
+    if x == n:
+        return True
+    if x[:len(n)] == n:
+        return True
+    if x[:len(n)] != n:
+        return False
+    return simplify(x[len(n):], n[1:])
+
+
+# @lc code=end
+
+# @lc main=start
+if __name__ == '__main__':
+    print('Example 1:')
+    print('Input : ')
+    print('n = 1.5')
+    print('Exception :')
+    print('true')
+    print('Output :')
+    print(simplify(""1/5"", ""5/1""))
+    print()
+
+    print('Example 2:')
+","def simplify(x, n):
+    return int(int(x) * int(n)) == int(x) * int(n)"
+HumanEval/145,0.0,0.0,0.0,0.0,0,0,"['RUNTIME', 'ASSERTION', 'ASSERTION', 'SYNTAX', 'SYNTAX']","['SYNTAX', 'SYNTAX', 'RUNTIME', 'SYNTAX', 'SYNTAX']",5.754,1.292,5,1,0,1,0.2222,0.4151,0.1481,0.2264,"    
+    # Sort the given list
+    nums.sort(key=lambda x: x.__getattribute__('__int__'))
+    
+    # Return the sorted list
+    return nums
+","return sorted(nums, key=lambda x: (sum(int(digit) for digit in str(x)), nums.index(x)))"
+HumanEval/146,0.0,0.4,0.0,1.0,0,2,"['ASSERTION', 'ASSERTION', 'ASSERTION', 'SYNTAX', 'SYNTAX']","['SYNTAX', 'ASSERTION', 'ASSERTION']",5.073,2.5,6,6,2,3,0.4384,0.5479,0.411,0.5205,"    # Write your code here
+    count = 0
+    for i in range(len(nums)):
+        if nums[i] > 10 and nums[i] % 2 != 0 and nums[i] % 10 != 0:
+            count += 1
+    return count","def specialFilter(nums):
+    count = 0
+    for num in nums:
+        if num > 10 and int(str(num)[0]) % 2 != 0 and int(str(num)[-1]) % 2 != 0:
+            count += 1
+    return count"
+HumanEval/147,0.0,0.8,0.0,1.0,0,4,"['SYNTAX', 'SYNTAX', 'TIMEOUT', 'SYNTAX', 'ASSERTION']",['SYNTAX'],6.768,3.841,19,9,2,6,0.4459,0.8039,0.2838,0.8039,"    return 3
+
+def get_max_triples_2(n):
+    """"""
+    You are given a positive integer n. You have to create an integer array a of length n.
+        For each i (1 ≤ i ≤ n), the value of a[i] = i * i - i + 1.
+        Return the number of triples (a[i], a[j], a[k]) of a where i < j < k, 
+    and a[i] + a[j] + a[k] is a multiple of 3.
+    Example :
+        Input: n = 5
+        Output: 1
+        Explanation: 
+        a = [1, 3, 7, 13, 21]
+        The only valid triple is (1, 7, 13).
+    """"""
+    return","def get_max_triples(n):
+    a = [i * i - i + 1 for i in range(1, n + 1)]
+    count = 0
+    for i in range(n):
+        for j in range(i + 1, n):
+            for k in range(j + 1, n):
+                if (a[i] + a[j] + a[k]) % 3 == 0:
+                    count += 1
+    return count"
+HumanEval/148,0.0,0.0,0.0,0.0,0,0,"['SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX', 'ASSERTION']","['ASSERTION', 'RUNTIME', 'ASSERTION', 'RUNTIME', 'ASSERTION']",7.147,4.865,11,10,11,3,0.3932,0.6154,0.2564,0.5769,"    
+    if planet1 == ""Jupiter"" and planet2 == ""Saturn"":
+        return (""Saturn"", ""Uranus"")
+    elif planet1 == ""Saturn"" and planet2 == ""Uranus"":
+        return (""Uranus"", ""Venus"")
+    elif planet1 == ""Uranus"" and planet2 == ""Neptune"":
+        return (""Venus"", ""Earth"", ""Mars"", ""Jupiter"", ""Saturn"")
+    elif planet1 == ""Neptune"" and planet2 == ""Earth"":
+        return (""Earth"", ""Mars"", ""Jupiter"", ""Saturn"", ""Uranus"")
+    elif planet1 == ""Jupiter"" and planet2 == ""Mars"":
+        return (""Mars"", ""Ura","def bf(planet1, planet2):
+    planets = [""Mercury"", ""Venus"", ""Earth"", ""Mars"", ""Jupiter"", ""Saturn"", ""Uranus"", ""Neptune""]
+    if planet1 not in planets or planet2 not in planets:
+        return ()
+    
+    index1, index2 = planets.index(planet1), planets.index(planet2)
+    if index1 > index2:
+        index1, index2 = index2, index1
+    
+    return planets[index1+1:index2]"
+HumanEval/149,0.0,0.0,0.0,0.0,0,0,"['ASSERTION', 'ASSERTION', 'SYNTAX', 'SYNTAX', 'SYNTAX']","['SYNTAX', 'ASSERTION', 'SYNTAX', 'SYNTAX', 'SYNTAX']",6.186,1.363,20,1,10,2,0.1463,0.5366,0.1301,0.4878,"    
+    # if lst is a list, we can return it
+    if isinstance(lst, list):
+        # if the list is a list of strings, we can convert it to a list
+        # and sort it
+        if isinstance(lst, list):
+            lst = sorted(lst)
+        # else, we can return a list of strings
+        else:
+            return lst
+    # else, we can return an empty list
+    else:
+        return []
+    
+    # if the list is a list, we can return it
+    if isinstance(lst, list):
+        # if the list is a list ","return sorted([word for word in lst if len(word) % 2 == 0], key=lambda x: (len(x), x))"
+HumanEval/150,0.0,0.4,0.0,1.0,0,2,"['SYNTAX', 'SYNTAX', 'ASSERTION', 'ASSERTION', 'ASSERTION']","['ASSERTION', 'ASSERTION', 'SYNTAX']",5.683,2.223,25,5,11,4,0.24,0.75,0.208,0.5,"    if n % 2 == 0:
+        return x
+    else:
+        return y
+
+def x_or_y_2(n, x, y):
+    """"""A simple program which should return the value of x if n is 
+    a prime number and should return the value of y otherwise.
+
+    Examples:
+    for x_or_y_2(7, 34, 12) == 34
+    for x_or_y_2(15, 8, 5) == 5
+    
+    """"""
+    if n % 2 == 0:
+        return x
+    else:
+        return y
+
+def x_or_y_3(n, x, y):
+    """"""A simple program which should return the value of x if n is 
+    a prime number and should ret","def x_or_y(n, x, y):
+    if all(n % i != 0 for i in range(2, int(n**0.5) + 1)):
+        return x
+    else:
+        return y"
+HumanEval/151,0.0,0.0,0.0,0.0,0,0,"['SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX', 'ASSERTION']","['SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX']",6.265,1.217,20,1,4,2,0.2278,0.5143,0.2278,0.5143,"    return sum([x**2 for x in lst if x % 2 != 0])
+
+def reverse_string(s):
+    '''
+    Given a string, return the string with its characters reversed.
+    
+    reverse_string(""Hello"") == ""olleH""
+    reverse_string(""Chocolate"") == ""CoChi""
+    reverse_string(""aabbccddeeff"") == ""aabbccddeeff""
+    reverse_string("""") == """"
+    reverse_string("""") == """"
+    reverse_string("""") == """"
+    reverse_string("""") == """"
+    reverse_string("""") == """"
+    reverse_string("""") == """"
+    reverse_string("""") == """"
+    rev","return sum(x**2 for x in lst if isinstance(x, int) and x > 0)"
+HumanEval/152,0.0,0.8,0.0,1.0,0,4,"['ASSERTION', 'SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX']",['SYNTAX'],7.296,1.194,13,2,0,2,0.0482,0.5385,0.0482,0.5385,"    #print(guess,game)
+    #print(len(guess))
+    #print(len(game))
+    #print(len(game[0]))
+    #print(len(game[0][0]))
+    #print(len(game[0][0][0]))
+    #print(len(game[0][0][0][0]))
+    #print(len(game[0][0][0][0][0]))
+    #print(len(game[0][0][0][0][0]))
+    #print(len(game[0][0][0][0][0]))
+    #print(len(game[0][0][0][0][0]))
+    #print(len(game[0][0][0][0][0]))
+    #print","def compare(game, guess):
+    return [abs(a - b) for a, b in zip(game, guess)]"
+HumanEval/153,0.0,1.0,0.0,1.0,0,5,"['SYNTAX', 'RUNTIME', 'ASSERTION', 'SYNTAX', 'SYNTAX']",[],6.405,4.57,17,14,9,7,0.3038,0.2687,0.1772,0.2537,"    if class_name == """":
+        return """"
+    for extension in extensions:
+        if extension[0] == class_name[0].upper():
+            return extension[1:]
+    return class_name[0].upper() + class_name[1:]
+
+def get_extension_names(class_name):
+    """"""Returns a list of the names of all the extensions in the given class.
+    Example:
+    for get_extension_names('my_class') == ['AA', 'Be', 'CC']
+    for get_extension_names('my_class.AA') == ['AA', 'Be', 'CC']
+    for get_extension_names('my_clas","def Strongest_Extension(class_name, extensions):
+    max_strength = float('-inf')
+    strongest_extension = """"
+    
+    for extension in extensions:
+        cap_count = sum(1 for char in extension if char.isupper())
+        sm_count = sum(1 for char in extension if char.islower())
+        strength = cap_count - sm_count
+        
+        if strength > max_strength:
+            max_strength = strength
+            strongest_extension = extension
+    
+    return f""{class_name}.{strongest_extension}"""
+HumanEval/154,0.0,1.0,0.0,1.0,0,5,"['SYNTAX', 'ASSERTION', 'SYNTAX', 'SYNTAX', 'SYNTAX']",[],7.648,1.833,15,6,6,3,0.2203,0.6316,0.1525,0.4211,"    # Write your code here
+    if b.find(a[0]) != -1:
+        return True
+    elif b.find(a[-1]) != -1:
+        return True
+    else:
+        return False
+
+def cycpattern_check_alt(a , b):
+    """"""You are given 2 words. You need to return True if the second word or any of its rotations is a substring in the first word
+    cycpattern_check_alt(""abcd"",""abd"") => False
+    cycpattern_check_alt(""hello"",""ell"") => True
+    cycpattern_check_alt(""whassup"",""psus"") => False
+    cycpattern_check_alt(""abab"",""","def cycpattern_check(a, b):
+    for i in range(len(b)):
+        rotated = b[i:] + b[:i]
+        if rotated in a:
+            return True
+    return False"
+HumanEval/155,0.0,0.2,0.0,1.0,0,1,"['SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX']","['SYNTAX', 'SYNTAX', 'ASSERTION', 'SYNTAX']",7.19,2.568,33,5,6,3,0.4696,0.7077,0.3478,0.5231,"    even = 0
+    odd = 0
+
+    for i in str(num):
+        if i in '02468':
+            even += 1
+        else:
+            odd += 1
+
+    return (even, odd)
+
+print(even_odd_count(-12))
+
+
+def sum_digits(num):
+    """"""Sum all the digits of a positive number.
+
+    For example, sum_digits(12321) returns 3 (not 3).
+    """"""
+    sum = 0
+    while num > 0:
+        digit = num % 10
+        sum += digit
+        num = int(num / 10)
+    return sum
+
+
+def count_primes(num):
+    """"""Count the number of prime numbe","def even_odd_count(num):
+    num_str = str(abs(num))
+    even_count = sum(1 for digit in num_str if int(digit) % 2 == 0)
+    odd_count = len(num_str) - even_count
+    return even_count, odd_count"
+HumanEval/156,0.0,1.0,0.0,1.0,0,5,"['SYNTAX', 'ASSERTION', 'SYNTAX', 'SYNTAX', 'SYNTAX']",[],7.013,6.288,20,15,5,3,0.2333,0.5981,0.2167,0.1495,"    roman_list = ["""", ""i"", ""ii"", ""iii"", ""iv"", ""v"", ""vi"", ""x"", ""xxi"", ""xxii"", ""xxiii"", ""xxiv"", ""xxvi"", ""xxxv"", ""xxxvi"", ""xxxxv"", ""xxxxv""]
+    result = """"
+
+    while number > 0:
+        for i in range(len(roman_list)):
+            if number >= roman_list[i]:
+                result += roman_list[i]
+                number -= roman_list[i]
+                break
+        else:
+            result += str(number)
+            break
+
+    return result.lower()
+
+
+def main():
+    print(int_to_mini_roman(13))
+ ","def int_to_mini_roman(number):
+    # Define Roman numerals mapping
+    roman_numerals = [
+        (1000, ""m""), (900, ""cm""), (500, ""d""), (400, ""cd""),
+        (100, ""c""), (90, ""xc""), (50, ""l""), (40, ""xl""),
+        (10, ""x""), (9, ""ix""), (5, ""v""), (4, ""iv""), (1, ""i"")
+    ]
+    
+    result = """"
+    for value, numeral in roman_numerals:
+        while number >= value:
+            result += numeral
+            number -= value
+    
+    return result.lower()"
+HumanEval/157,0.0,0.0,0.0,0.0,0,0,"['SYNTAX', 'ASSERTION', 'SYNTAX', 'SYNTAX', 'SYNTAX']","['SYNTAX', 'SYNTAX', 'SYNTAX', 'ASSERTION', 'SYNTAX']",6.7,1.031,24,1,9,0,0.3193,0.2581,0.2689,0.2581,"    # a, b, c = 3, 4, 5
+    # if a > b and a > c:
+    #     return True
+    # if b > a and b > c:
+    #     return True
+    # if c > a and c > b:
+    #     return True
+    # return False
+
+    if a <= b and b <= c:
+        return True
+    if a > b and b > c:
+        return True
+    if a > c and b > c:
+        return True
+    if a > b and a > c:
+        return True
+    return False
+
+def left_angle_triangle(a, b, c):
+    '''
+    Given the lengths of the three sides of a triangle. Return True if the",return abs(a**2 + b**2 - c**2) < 1e-9
+HumanEval/158,0.0,0.4,0.0,1.0,0,2,"['SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX', 'ASSERTION']","['SYNTAX', 'SYNTAX', 'SYNTAX']",7.856,1.511,20,1,4,0,0.0755,0.5714,0.0377,0.5714,"    max_char_count = 0
+    max_char_count_index = 0
+
+    for word in words:
+        if len(word) > max_char_count:
+            max_char_count = len(word)
+            max_char_count_index = words.index(word)
+
+    return words[max_char_count_index]
+
+
+def find_min(words):
+    """"""Write a function that accepts a list of strings.
+    The list contains different words. Return the word with minimum number
+    of unique characters. If multiple strings have minimum number of unique
+    characters, return ","return max(words, key=lambda w: (-len(set(w)), w))"
+HumanEval/159,0.0,0.2,0.0,1.0,0,1,"['SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX', 'ASSERTION']","['SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX']",6.454,1.174,16,1,2,0,0.2017,0.6364,0.1681,0.5455,"    return [ number - need, remaining - need ]
+
+# Solution 1
+def eat(number, need, remaining):
+    """"""
+    You're a hungry rabbit, and you already have eaten a certain number of carrots,
+    but now you need to eat more carrots to complete the day's meals.
+    you should return an array of [ total number of eaten carrots after your meals,
+                                    the number of carrots left after your meals ]
+    if there are not enough remaining carrots, you will eat all remaining car","return [number + min(need, remaining), max(remaining - need, 0)]"
+HumanEval/160,0.0,0.0,0.0,0.0,0,0,"['SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX', 'SYNTAX']","['ASSERTION', 'ASSERTION', 'ASSERTION', 'ASSERTION', 'SYNTAX']",7.612,3.898,20,14,6,11,0.175,0.2286,0.15,0.2286,"    if len(operator) == len(operand):
+        return eval(operator + operand)
+
+    operator_list = operator.split('+')
+    operand_list = operand.split('+')
+    if operator_list[0] == '-':
+        operator_list[0] = '+'
+    if operand_list[0] == '-':
+        operand_list[0] = '+'
+    if operator_list[1] == '-':
+        operator_list[1] = '+'
+    if operand_list[1] == '-':
+        operand_list[1] = '+'
+    result = do_algebra(operator_list, operand_list)
+    return result
+
+
+def main():
+    """"""
+  ","def do_algebra(operator, operand):
+    result = operand[0]
+    for i in range(len(operator)):
+        if operator[i] == '+':
+            result += operand[i+1]
+        elif operator[i] == '-':
+            result -= operand[i+1]
+        elif operator[i] == '*':
+            result *= operand[i+1]
+        elif operator[i] == '//':
+            result //= operand[i+1]
+        elif operator[i] == '**':
+            result **= operand[i+1]
+    return result"
+HumanEval/161,0.0,0.4,0.0,1.0,0,2,"['ASSERTION', 'SYNTAX', 'ASSERTION', 'ASSERTION', 'SYNTAX']","['SYNTAX', 'ASSERTION', 'SYNTAX']",6.416,2.052,12,1,4,4,0.4138,0.4118,0.2529,0.2941,"    if s == """":
+        return """"
+    if len(s) == 1:
+        return s[0].upper()
+    if len(s) == 2:
+        return s[0].lower() + s[1].upper()
+    return s[0].lower() + solve(s[1:]) + solve(s[:2])
+
+if __name__ == '__main__':
+    print(solve(""1234""))
+    print(solve(""ab""))
+    print(solve(""#a@C""))
+",return ''.join(c.swapcase() if c.isalpha() else c for c in s)[::-1] if not any(c.isalpha() for c in s) else s[::-1]
+HumanEval/162,0.0,1.0,0.0,1.0,0,5,"['SYNTAX', 'SYNTAX', 'RUNTIME', 'SYNTAX', 'SYNTAX']",[],6.203,1.496,22,6,4,2,0.2069,0.7097,0.1839,0.5161,"    if not text:
+        return None
+    md5 = hashlib.md5()
+    md5.update(text.encode('utf-8'))
+    return md5.hexdigest()
+
+
+def md5_to_string(md5_hash):
+    """"""
+    Given a md5 hash string, return the corresponding string.
+    If 'md5_hash' is an empty string, return None.
+
+    >>> md5_to_string('3e25960a79dbc69b674cd4ec67a72c62') == 'Hello world'
+    """"""
+    if not md5_hash:
+        return None
+    return md5_hash.decode('utf-8')
+
+
+def get_md5_hash(file_path):
+    """"""
+    Given a path to a f","import hashlib
+
+def string_to_md5(text):
+    if not text:
+        return None
+    return hashlib.md5(text.encode()).hexdigest()"
+HumanEval/163,0.0,0.0,0.0,0.0,0,0,"['SYNTAX', 'SYNTAX', 'SYNTAX', 'ASSERTION', 'SYNTAX']","['ASSERTION', 'SYNTAX', 'ASSERTION', 'ASSERTION', 'ASSERTION']",6.696,1.897,19,2,3,3,0.2609,0.7083,0.1913,0.5417,"    # TODO: Generate the even integers between a and b
+    # Hint: Use range()
+    return [i for i in range(a, b+1)]
+
+def generate_numbers(start, end):
+    """"""
+    Given two positive integers start and end, return a list of all the numbers
+    between start and end, inclusive.
+
+    For example:
+    generate_numbers(0, 5) => [0, 1, 2, 3, 4]
+    generate_numbers(5, 10) => [5, 6, 7, 8, 9]
+    generate_numbers(10, 15) => []
+    """"""
+    # TODO: Generate the numbers between start and end
+    # Hint: U","def generate_integers(a, b):
+    return sorted([i for i in range(min(a, b), max(a, b) + 1) if i % 2 == 0])"
