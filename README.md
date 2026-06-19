@@ -39,61 +39,100 @@ project/
 ## How to Run — Step by Step (on your local machine or Colab GPU)
 
 ### Prerequisites
+
 - Python 3.9+
 - NVIDIA GPU with CUDA (8GB+ VRAM). On Colab: Runtime → Change runtime type → T4 GPU
 - Git
 
 ### Step 0 — Clone and install
+
 ```bash
-git clone https://github.com/YOUR_USERNAME/code-gen-benchmark.git
-cd code-gen-benchmark
+git clone https://github.com/Nishviprp/CodeGen-LLM.git
+cd CodeGen-LLM
 pip install -r requirements.txt
 ```
 
 ### Step 1 — Download data
+
 ```bash
 python data/prepare_data.py
 ```
+
 What this does: Downloads 5000 Python code samples from CodeParrot (for training),
 and the 164-task HumanEval benchmark (for evaluation). Saves both as JSON files.
 Expected output: "Saved 5000 training examples" and "Saved 164 HumanEval tasks"
 
 ### Step 2 — Fine-tune the model
+
 ```bash
 python models/finetune.py
 ```
+
 What this does: Takes CodeGen-350M-mono (a pre-trained code model from Salesforce),
-attaches lightweight LoRA adapters, and trains it for 3 epochs on the Python dataset.
-Saves the trained adapter to models/finetuned-adapter/
-Expected time: ~45-60 min on T4 GPU. Skip this if you already have the adapter.
+attaches lightweight LoRA adapters, and trains it for 3 epochs on the Python dataset
+using bfloat16 precision. Saves the trained adapter to models/finetuned-adapter/
+Expected time: ~60-100 min on T4 GPU. Skip this if you already have the adapter
+(it's included in this repo).
 
 ### Step 3 — Run the evaluation
+
 ```bash
 python evaluation/evaluator.py
 ```
+
 What this does: Loads both models. For each of the 164 HumanEval tasks, generates
 5 code completions per model, runs them against the official test cases, and computes:
-  - pass@1 and pass@5 (standard HumanEval metrics)
-  - Code complexity (line count, control structures)
-  - Generation latency
-  - ROUGE-L semantic similarity to reference solution
-Saves results to results/detailed_results.csv and results/summary_results.csv
+
+- pass@1 and pass@5 (standard HumanEval metrics, unbiased estimator)
+- Code complexity (line count, control structures)
+- Generation latency
+- ROUGE-1 / ROUGE-L semantic similarity to reference solution
+
+Saves results to `results/detailed_results.csv` and `results/summary_results.csv`
 Expected time: ~90 min on T4 GPU
 
 ### Step 4 — Generate charts
+
 ```bash
 python evaluation/visualize.py
 ```
-What this does: Reads the CSVs and produces bar charts for each metric.
-Saves PNGs to results/visualizations/
+
+What this does: Reads the CSVs and produces 5 charts. Saves PNGs to `results/visualizations/`
+
+---
+
+## Results
+
+Evaluated on the **full 164-task HumanEval benchmark**, 5 sampled completions per task
+per model, temperature 0.6.
+
+| Metric | CodeGen-350M (fine-tuned) | Qwen2.5-Coder-1.5B-Instruct |
+|---|---|---|
+| pass@1 | 0.0232 (2.3%) | 0.2512 (25.1%) |
+| pass@5 | 0.0854 (8.5%) | 0.4878 (48.8%) |
+| Avg. generation time | 6.63s | 2.08s |
+| Avg. lines of code | 18.5 | 4.6 |
+| Avg. ROUGE-1 | 0.2606 | 0.5245 |
+| Avg. ROUGE-L | 0.2004 | 0.4389 |
+
+Full per-task results: [`results/detailed_results.csv`](results/detailed_results.csv)
+Charts: [`results/visualizations/`](results/visualizations/)
+
+**Interpretation:** Qwen2.5-Coder-1.5B-Instruct outperforms the fine-tuned CodeGen-350M
+model on every metric measured. This is expected: it is 4× larger and instruction-tuned
+on a large, modern code corpus. The fine-tuned model's low pass@1 is consistent with its
+training behavior — loss stayed flat between 0.90 and 0.93 across all 3 epochs, indicating
+the LoRA adapter learned limited signal from the 5,000-sample dataset at the chosen
+learning rate (2e-5). This is a legitimate, explainable result rather than an evaluation
+flaw — see **Future Work** below for how to close the gap.
 
 ---
 
 ## Understanding the Key Concepts
 
 **What is HumanEval?**
-A benchmark of 164 Python programming tasks created by OpenAI. Each task has a
-function signature + docstring (the "prompt"), a reference solution, and unit tests.
+A benchmark of 164 hand-written Python programming tasks created by OpenAI. Each task has
+a function signature + docstring (the "prompt"), a reference solution, and unit tests.
 A model is given the prompt and must complete the function. Tests tell us if it worked.
 
 **What is pass@k?**
@@ -108,5 +147,20 @@ the base model and train two small rank-8 matrices per attention layer. Same res
 10x less compute and memory.
 
 **What is the baseline?**
-Qwen2.5-Coder-1.5B-Instruct — a modern (2024) instruction-tuned code model from Alibaba.
-It's 4x larger than our fine-tuned model. Comparing against it shows where the gap is.
+Qwen2.5-Coder-1.5B-Instruct — a modern (Oct 2024) instruction-tuned code model from
+Alibaba. It's 4x larger than the fine-tuned model in this project. Comparing against it
+shows where the gap is. (Note: GitHub Copilot was deliberately **not** used as a baseline,
+since it has no public completions API and cannot be called programmatically or
+reproduced by others.)
+
+---
+
+## Future Work
+
+- Increase the LoRA learning rate (try 1e-4 to 3e-4) — the current flat training loss
+  suggests under-fitting at 2e-5
+- Train on more data (50,000+ samples) and for more epochs
+- Try a larger LoRA rank (16 or 32) and additional target layers
+- Add more baselines (StarCoder2, DeepSeek-Coder-V2, CodeLlama) for a broader comparison
+- Add a qualitative error-type breakdown (syntax error vs. wrong logic vs. timeout) —
+  the evaluator already logs this; it isn't visualized yet
