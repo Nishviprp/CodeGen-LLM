@@ -1,0 +1,5 @@
+failure_type,codegen_count,codegen_pct_of_failures,qwen_count,qwen_pct_of_failures
+SYNTAX,535,66.8,418,68.1
+ASSERTION,208,26.0,153,24.9
+RUNTIME,41,5.1,43,7.0
+TIMEOUT,17,2.1,0,0.0

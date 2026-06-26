@@ -1,0 +1,5 @@
+model,scheme,pass,n,pass_rate_pct,OK,SYNTAX,ASSERTION,RUNTIME,TIMEOUT
+qwen,naive,39,164,23.8,39,89,26,10,0
+qwen,normalized,79,164,48.2,79,6,62,17,0
+codegen,naive,2,164,1.2,2,107,39,9,7
+codegen,normalized,0,164,0.0,0,153,7,4,0
