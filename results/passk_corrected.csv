@@ -1,0 +1,5 @@
+model,scheme,pass@1,pass@5
+codegen,naive,2.4,8.5
+codegen,normalized,0.5,2.4
+qwen,naive,0.0,0.0
+qwen,normalized,59.4,82.3

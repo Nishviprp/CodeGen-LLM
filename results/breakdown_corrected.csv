@@ -1,0 +1,5 @@
+model,scheme,OK,SYNTAX,ASSERTION,RUNTIME,TIMEOUT
+codegen,naive,20,520,200,80,0
+codegen,normalized,4,731,68,17,0
+qwen,naive,0,820,0,0,0
+qwen,normalized,487,55,227,50,1
